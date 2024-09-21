@@ -1,19 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { FiBell, FiRotateCcw, FiSearch,  } from "react-icons/fi";
-import { TiWeatherSunny } from "react-icons/ti";
-import { CiStar } from "react-icons/ci";
-
-const notificationsCount = 5;
+import { FiSearch } from "react-icons/fi";
+import { PiStarDuotone, PiSidebarDuotone, PiSunDuotone, PiClockCounterClockwiseDuotone, PiBellDuotone } from "react-icons/pi";
 
 const Header = () => (
   <header className="bg-white flex justify-between items-center px-6 py-2 border-b">
-
     <div className="flex items-center">
-      <CiStar className="text-gray-500 cursor-pointer" size={20} />
-      <h1 className="text-xl font-semibold mr-4 ml-2">Dashboards</h1>
-      <span className="text-gray-500">/</span>
-      <span className="ml-4 text-gray-500">Default</span>
+      <PiSidebarDuotone className="cursor-pointer mr-4" size={20} onClick={() => { /* Toggle sidebar functionality here */ }} />
+      <PiStarDuotone className="cursor-pointer" size={20} />
+      <h1 className="text-sm font-normal font-inter mr-4 ml-4 text-[#1C1C1C66]">Dashboards</h1>
+      <span className="text-[#1C1C1C33] text-sm font-normal font-inter">/</span>
+      <span className="ml-4 text-[#1C1C1C] text-sm font-normal font-inter">Default</span>
     </div>
 
     <div className="flex-grow mx-4 hidden sm:block">
@@ -21,33 +18,22 @@ const Header = () => (
         <input
           type="text"
           placeholder="Search"
-          className="float-right pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="float-right pl-10 pr-4 py-2 bg-[#1C1C1C0D] text-[#1C1C1C33] text-sm font-normal font-inter rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400"
         />
         <FiSearch
           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          size={18}
+          size={16}
         />
       </div>
     </div>
 
     <div className="flex items-center space-x-4">
-      <TiWeatherSunny className="text-gray-500 cursor-pointer" size={20} />
-      <FiRotateCcw className="text-gray-500 cursor-pointer" size={20} />
-      <div className="relative">
-        <FiBell className="text-gray-500 cursor-pointer" size={20} />
-        {notificationsCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-            {notificationsCount}
-          </span>
-        )}
-      </div>
-      {/* <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
-        <img
-          src="/api/placeholder/32/32"
-          alt="User"
-          className="w-full h-full object-cover"
-        />
-      </div> */}
+      <PiSunDuotone  className="cursor-pointer" size={20} />
+      <PiClockCounterClockwiseDuotone className="cursor-pointer" size={20} />
+      <PiBellDuotone className="cursor-pointer" size={20} />
+      {/* {isDashboard && ( */}
+      <PiSidebarDuotone className="cursor-pointer" size={20} onClick={() => { /* Handle right sidebar toggle here */ }} />
+      {/* )} */}
     </div>
   </header>
 );
