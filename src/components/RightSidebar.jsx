@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { FiBell, FiSettings } from "react-icons/fi";
+import { PiBugBeetle, PiUser, PiBroadcast  } from "react-icons/pi";
 
 function RightSidebar() {
   const notifications = [
@@ -8,19 +8,24 @@ function RightSidebar() {
       id: 1,
       message: "You have a bug that needs...",
       time: "Just now",
-      icon: <FiSettings className="text-blue-500" />,
+      icon: <PiBugBeetle size={16} className="bg-[#E3F5FF] rounded-lg" />,
     },
-    { id: 2, message: "New user registered", time: "59 minutes ago" },
+    {
+      id: 2,
+      message: "New user registered",
+      time: "59 minutes ago",
+      icon: <PiUser size={16}/>
+    },
     {
       id: 3,
       message: "You have a bug that needs...",
       time: "12 hours ago",
-      icon: <FiSettings className="text-blue-500" />,
     },
     {
       id: 4,
       message: "Andi Lane subscribed to you",
       time: "Today, 11:59 AM",
+      icon: <PiBroadcast size={16}/>
     },
   ];
 
@@ -97,37 +102,37 @@ function RightSidebar() {
   ];
 
   return (
-    <div width={300} className="bg-white p-4 overflow-y-auto ">
+    <div width={300} className="bg-white p-4 overflow-y-auto border-l border-[#1C1C1C1A]">
       <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Notifications</h2>
+        <h2 className="text-sm font-inter font-semibold mb-4">Notifications</h2>
         {notifications.map((notif) => (
           <div key={notif.id} className="flex items-start mb-4">
             <div className="mr-3 mt-2">
-              {notif.icon || <FiBell className="text-gray-400" />}
+              {notif.icon || <PiBugBeetle size={16} />}
             </div>
             <div>
-              <p className="text-sm">{notif.message}</p>
-              <p className="text-xs text-gray-500">{notif.time}</p>
+              <p className="text-sm font-inter font-medium">{notif.message}</p>
+              <p className="text-xs text-[#1C1C1C66]">{notif.time}</p>
             </div>
           </div>
         ))}
       </div>
 
       <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Activities</h2>
+        <h2 className="text-sm font-inter font-semibold mb-4">Activities</h2>
         {activities.map((activity) => (
           <div key={activity.id} className="flex items-start mb-4">
             <div className="mr-3 mt-2">{activity.icon}</div>
             <div>
-              <p className="text-sm">{activity.message}</p>
-              <p className="text-xs text-gray-500">{activity.time}</p>
+              <p className="text-sm font-inter font-medium">{activity.message}</p>
+              <p className="text-xs text-[#1C1C1C66]">{activity.time}</p>
             </div>
           </div>
         ))}
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold mb-4">Contacts</h2>
+        <h2 className="text-sm font-inter font-semibold mb-4">Contacts</h2>
         {contacts.map((contact) => (
           <div key={contact.id} className="flex items-center mb-4">
             <img
@@ -135,7 +140,7 @@ function RightSidebar() {
               alt={contact.name}
               className="rounded-full mr-2"
             />
-            <p className="text-sm">{contact.name}</p>
+            <p className="text-sm font-inter font-medium">{contact.name}</p>
           </div>
         ))}
       </div>

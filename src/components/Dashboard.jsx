@@ -40,9 +40,9 @@ function Dashboard() {
     //   </div>
     // </div>
     <div className="bg-white text-gray-900 min-h-screen p-5">
-      <header className="flex justify-between items-center pb-5">
+      {/* <header className="flex justify-between items-center pb-5">
         <h1 className="text-2xl font-bold">eCommerce</h1>
-      </header>
+      </header> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Top Row: Full-width Stat Card */}
         <div className="md:col-span-2 lg:col-span-3">
