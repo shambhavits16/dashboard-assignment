@@ -4,7 +4,7 @@ import { FiSearch } from "react-icons/fi";
 import { PiStarDuotone, PiSidebarDuotone, PiSunDuotone, PiClockCounterClockwiseDuotone, PiBellDuotone } from "react-icons/pi";
 
 const Header = () => (
-  <header className="bg-white flex justify-between items-center px-6 py-2 border-b">
+  <header className="bg-white flex justify-between items-center px-6 py-2 border-b border-[#1C1C1C1A]">
     <div className="flex items-center">
       <PiSidebarDuotone className="cursor-pointer mr-4" size={20} onClick={() => { /* Toggle sidebar functionality here */ }} />
       <PiStarDuotone className="cursor-pointer" size={20} />

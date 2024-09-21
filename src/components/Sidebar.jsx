@@ -1,117 +1,118 @@
-import React from "react";
-import { Layout, Menu } from "antd";
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from "react";
 import {
-  FiHome,
-  FiFolder,
-  FiBook,
-  FiUser,
-  FiSettings,
-  FiBriefcase,
-  FiFileText,
-  FiUsers,
-  FiRss,
+  FiChevronDown,
+  FiChevronRight
 } from "react-icons/fi";
-
-const { Sider } = Layout;
+import { PiChartPieSliceDuotone, PiShoppingBagOpenDuotone, PiFolderDuotone, PiBookOpenDuotone, PiIdentificationBadgeDuotone, PiIdentificationCardDuotone, PiUsersThreeDuotone, PiNotebookDuotone, PiChatsTeardropDuotone, PiDotOutlineFill  } from "react-icons/pi";
 
 const Sidebar = () => {
+  const [openSections, setOpenSections] = useState({
+    favorites: true,
+    dashboards: true,
+    pages: false,
+    userProfile: false
+  });
+  const [selectedItem, setSelectedItem] = useState('default');
+
+  const toggleSection = (section) => {
+    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const handleItemClick = (itemKey) => {
+    setSelectedItem(itemKey);
+  };
+
   const menuItems = [
     {
       label: 'Favorites',
-      key: 'favorites', // Not necessary for `Menu.ItemGroup` but useful for `Menu`
-      children: [
-        {
-          label: 'Overview',
-          key: '1',
-          icon: <FiHome />,
-        },
-        {
-          label: 'Projects',
-          key: '2',
-          icon: <FiFolder />,
-        }
+      key: 'favorites',
+      items: [
+        // { label: 'Recently', key: 'recently', items: [] },
+        { label: 'Overview', key: 'overview', icon: <PiDotOutlineFill size={16} color="#1C1C1C33"/> },
+        { label: 'Projects', key: 'projects', icon: <PiDotOutlineFill size={16} color="#1C1C1C33"/>}
       ]
     },
     {
       label: 'Dashboards',
       key: 'dashboards',
-      icon: <FiBook />,
-      children: [
-        {
-          label: 'Default',
-          key: '3',
-          icon: <FiHome />,
-        },
-        {
-          label: 'eCommerce',
-          key: '4',
-          icon: <FiBriefcase />,
-        },
-        {
-          label: 'Projects',
-          key: '5',
-          icon: <FiFolder />,
-        },
-        {
-          label: 'Online Courses',
-          key: '6',
-          icon: <FiBook />,
-        },
+      items: [
+        { label: 'Default', key: 'default', icon: <PiChartPieSliceDuotone size={20} /> },
+        { label: 'eCommerce', key: 'ecommerce', icon: <PiShoppingBagOpenDuotone size={20} />, items: [] },
+        { label: 'Projects', key: 'dashboard-projects', icon: <PiFolderDuotone size={20} />, items: [] },
+        { label: 'Online Courses', key: 'online-courses', icon: <PiBookOpenDuotone size={20} />, items: [] }
       ]
     },
     {
       label: 'Pages',
       key: 'pages',
-      icon: <FiFileText />,
-      children: [
+      items: [
         {
           label: 'User Profile',
-          key: 'userProfile',
-          icon: <FiUser />,
-          children: [
-            { label: 'Overview', key: '7' },
-            { label: 'Projects', key: '8' },
-            { label: 'Campaigns', key: '9' },
-            { label: 'Documents', key: '10' },
-            { label: 'Followers', key: '11' },
-          ]
+          key: 'user-profile',
+          icon: <PiIdentificationBadgeDuotone size={20} />,
+          subItems: ['Overview', 'Projects', 'Campaigns', 'Documents', 'Followers']
         },
-        {
-          label: 'Account',
-          key: '12',
-          icon: <FiSettings />,
-        },
-        {
-          label: 'Corporate',
-          key: '13',
-          icon: <FiBriefcase />,
-        },
-        {
-          label: 'Blog',
-          key: '14',
-          icon: <FiFileText />,
-        },
-        {
-          label: 'Social',
-          key: '15',
-          icon: <FiUsers />,
-        },
+        { label: 'Account', key: 'account', icon: <PiIdentificationCardDuotone size={20} />, items: [] },
+        { label: 'Corporate', key: 'corporate', icon: <PiUsersThreeDuotone size={20} />, items: [] },
+        { label: 'Blog', key: 'blog', icon: <PiNotebookDuotone size={20} />, items: [] },
+        { label: 'Social', key: 'social', icon: <PiChatsTeardropDuotone size={20} />, items: [] }
       ]
     }
   ];
 
+  const renderItems = (items, level = 0) => {
+    return items.map((item) => (
+      <div key={item.key} className={`ml-${level * 4}`}>
+        <div
+          className={`flex items-center py-2 px-4 cursor-pointer ${selectedItem === item.key ? 'bg-[#1C1C1C0D]' : ''}`}
+          onClick={() => {
+            handleItemClick(item.key);
+            if (item.items || item.subItems) toggleSection(item.key);
+          }}
+        >
+          {item.icon && <span className="mr-3">{item.icon}</span>}
+          <span className="flex-grow text-[#1C1C1C] text-sm font-inter font-medium">{item.label}</span>
+          {(item.items || item.subItems) && (
+            openSections[item.key] ? <FiChevronDown className="ml-2" /> : <FiChevronRight className="ml-2" />
+          )}
+        </div>
+        {openSections[item.key] && item.items && (
+          <div className="ml-4">
+            {renderItems(item.items, level + 1)}
+          </div>
+        )}
+        {openSections[item.key] && item.subItems && (
+          <div className="ml-8">
+            {item.subItems.map((subItem, subIndex) => (
+              <div key={subIndex} className="py-1 flex items-center">
+                <span className="mr-2 text-xs">•</span>
+                <span>{subItem}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ));
+  };
+
   return (
-    <Sider className="w-64 min-h-screen bg-white" theme="light">
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">ByeWind</h2>
+    <div className="w-56 bg-white text-gray-700 border-r border-[#1C1C1C1A] text-sm h-screen">
+      <div className="p-4 flex items-center space-x-2">
+        <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+        <span className="font-medium text-[#1C1C1C] text-sm font-inter">ByeWind</span>
+      </div>
+      <div className="py-2">
+        {menuItems.map((section) => (
+          <div key={section.key} className="mb-4">
+            <div className="px-4 py-2 text-sm font-medium text-[#1C1C1C66] uppercase">
+              {section.label}
+            </div>
+            {renderItems(section.items)}
+          </div>
+        ))}
+      </div>
     </div>
-      <Menu
-        mode="inline"
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["dashboards", "pages"]}
-        items={menuItems} // Using `items` instead of children
-      />
-    </Sider>
   );
 };
 
