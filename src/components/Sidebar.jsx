@@ -129,7 +129,7 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
           className={`flex items-center py-2 px-4 cursor-pointer ${selectedItem === item.key
               ? theme === "light"
                 ? "bg-gray-200"
-                : "bg-gray-700"
+                : "bg-[#282828]"
               : ""
             }`}
           onClick={() => {
@@ -192,7 +192,9 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
             <div
               className={`w-6 h-6 rounded-full ${theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
                 }`}
-            ></div>
+            >
+              <img src="/Images/ByeWind.png" alt="" />
+            </div>
 
             <span
               className={`font-medium ${theme === "light" ? "text-gray-800" : "text-gray-300"
