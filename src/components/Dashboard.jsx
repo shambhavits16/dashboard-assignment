@@ -6,6 +6,44 @@ import TopSellingProducts from "./TopSellingProducts";
 import StatCard from "./StatCard";
 import TotalSales from "./TotalSales";
 
+const productData = [
+  {
+    key: '1',
+    name: 'ASOS Ridley High Waist',
+    price: 79.49,
+    quantity: 82,
+    amount: 6518.18,
+  },
+  {
+    key: '2',
+    name: 'Marco Lightweight Shirt',
+    price: 128.50,
+    quantity: 37,
+    amount: 4754.50,
+  },
+  {
+    key: '3',
+    name: 'Half Sleeve Shirt',
+    price: 39.99,
+    quantity: 64,
+    amount: 2559.36,
+  },
+  {
+    key: '4',
+    name: 'Lightweight Jacket',
+    price: 20.00,
+    quantity: 184,
+    amount: 3680.00,
+  },
+  {
+    key: '5',
+    name: 'Marco Shoes',
+    price: 79.49,
+    quantity: 64,
+    amount: 1965.81,
+  }
+];
+
 function Dashboard() {
   // console.log('Dashboard is rendering');
   return (
@@ -59,7 +97,7 @@ function Dashboard() {
 
         {/* Third Row: Table and Pie Chart (TotalSales as a placeholder for Pie Chart) */}
         <div className="md:col-span-1 lg:col-span-2">
-          <TopSellingProducts />
+          <TopSellingProducts products={productData} />
         </div>
         <div className="md:col-span-1 lg:col-span-1">
           <TotalSales />
