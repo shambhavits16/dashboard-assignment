@@ -41,6 +41,34 @@ const productData = [
     quantity: 64,
     amount: 1965.81,
   },
+  {
+    key: "6",
+    name: "ASOS Ridley High Waist",
+    price: 79.49,
+    quantity: 82,
+    amount: 6518.18,
+  },
+  {
+    key: "7",
+    name: "Marco Lightweight Shirt",
+    price: 128.5,
+    quantity: 37,
+    amount: 4754.5,
+  },
+  {
+    key: "8",
+    name: "Half Sleeve Shirt",
+    price: 39.99,
+    quantity: 64,
+    amount: 2559.36,
+  },
+  {
+    key: "9",
+    name: "Lightweight Jacket",
+    price: 20.0,
+    quantity: 184,
+    amount: 3680.0,
+  },
 ];
 
 // Accept the `themeClass` prop to conditionally apply dark or light mode styles

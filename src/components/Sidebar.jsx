@@ -82,6 +82,7 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
           label: "User Profile",
           key: "user-profile",
           icon: <PiIdentificationBadgeDuotone size={20} />,
+          subItem: ["Overview", "Projects", "Campaigns", "Documents", "Followers"],
         },
         {
           label: "Account",
@@ -93,7 +94,11 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
           key: "corporate",
           icon: <PiUsersThreeDuotone size={20} />,
         },
-        { label: "Blog", key: "blog", icon: <PiNotebookDuotone size={20} /> },
+        {
+          label: "Blog",
+          key: "blog",
+          icon: <PiNotebookDuotone size={20} />
+        },
         {
           label: "Social",
           key: "social",

@@ -1,33 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { Table } from "antd";
 
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    className: "font-normal",
-  },
-  {
-    title: "Price",
-    dataIndex: "price",
-    key: "price",
-    render: (price) => `$${price.toFixed(2)}`,
-  },
-  {
-    title: "Quantity",
-    dataIndex: "quantity",
-    key: "quantity",
-  },
-  {
-    title: "Amount",
-    dataIndex: "amount",
-    key: "amount",
-    render: (amount) =>
-      `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
-  },
-];
 
 const TopSellingProducts = ({ products, theme }) => {
 
