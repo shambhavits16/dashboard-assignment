@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Table } from "antd";
 
@@ -13,7 +13,7 @@ const columns = [
     title: "Price",
     dataIndex: "price",
     key: "price",
-    render: price => `$${price.toFixed(2)}`, // Format price with two decimal places
+    render: (price) => `$${price.toFixed(2)}`,
   },
   {
     title: "Quantity",
@@ -24,24 +24,55 @@ const columns = [
     title: "Amount",
     dataIndex: "amount",
     key: "amount",
-    render: amount => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, // Format amount with commas and two decimal places
+    render: (amount) =>
+      `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
   },
 ];
 
-const TopSellingProducts = ({ products }) => (
-  <div
-    title="Top Selling Products"
-    className="max-w-screen-lg mx-auto bg-[#F7F9FB] rounded-lg p-6"
-  >
-    <Table
-      dataSource={products}
-      columns={columns}
-      pagination={false}
-      bordered={false}
-      className="min-w-full"
-      rowClassName="bg-[#F7F9FB]"
-    />
-  </div>
-);
+const TopSellingProducts = ({ products, theme }) => {
+
+  const containerClass =
+    theme === "light" ? "bg-[#F7F9FB] text-black" : "bg-[#282828] text-white";
+  const rowClass = theme === "light" ? "bg-[#F7F9FB] text-[#1C1C1C66]" : "bg-[#282828] text-[#FFFFFF66]";
+
+  return (
+    <div
+      title="Top Selling Products"
+      className={`max - w - screen - lg mx-auto rounded-lg p-6 font-inter ${containerClass}`}>
+      <div className={`text-sm font-semibold mb-3 mx-3 ${theme === "dark" ? "text-[#FFFFFF]" : "text-[#1C1C1C]"}`}>Top Selling Products</div>
+      <table className="min-w-full table-auto border-collapse">
+        <thead>
+          <tr className={rowClass}>
+            <th className="px-4 py-2 border-b text-left font-normal text-xs">Name</th>
+            <th className="px-4 py-2 border-b text-left font-normal text-xs">Price</th>
+            <th className="px-4 py-2 border-b text-left font-normal text-xs">Quantity</th>
+            <th className="px-4 py-2 border-b text-left font-normal text-xs">Amount</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {products.map((product, index) => (
+            <tr key={index}>
+              <td className="px-4 py-2 font-normal text-xs">{product.name}</td>
+
+              <td className="px-4 py-2 font-normal text-xs">
+                ${product.price.toFixed(2)}
+              </td>
+
+              <td className="px-4 py-2 font-normal text-xs">{product.quantity}</td>
+
+              <td className="px-4 py-2 font-normal text-xs">
+                $
+                {product.amount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div >
+  );
+};
 
 export default TopSellingProducts;

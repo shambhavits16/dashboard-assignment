@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import {
   BarChart,
@@ -8,23 +7,25 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
-import { FaArrowTrendUp, FaArrowTrendDown  } from "react-icons/fa6";
+import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 
-// eslint-disable-next-line react/prop-types
-const StatCard = ({ title, value, change, isNegative = false, bgColor }) => (
+const StatCard = ({
+  title,
+  value,
+  change,
+  isNegative = false,
+  bgColor,
+  textColor,
+}) => (
   <div
-    className={`h-fit w-full rounded-2xl p-6 ${bgColor} flex flex-col justify-between items-start gap-5 font-inter`}
+    className={`h-fit w-full rounded-2xl p-6 ${bgColor} ${textColor} flex flex-col justify-between items-start gap-5 font-inter`}
   >
     <p className="text-sm font-semibold">{title}</p>
     <div className="flex items-center justify-between w-full">
       <p className="text-2xl font-semibold">{value}</p>
-      <div className={`text-xs font-normal flex items-center gap-2`}>
-        <p>
-        {change}
-        {/* <span className="">{isNegative ? <FaArrowTrendDown /> : <FaArrowTrendUp />}</span> */}
-        </p>
+      <div className="text-xs font-normal flex items-center gap-2">
+        <p>{change}</p>
         {isNegative ? <FaArrowTrendDown /> : <FaArrowTrendUp />}
       </div>
     </div>
@@ -40,22 +41,51 @@ const chartData = [
   { name: "Jun", actual: 15, projected: 3 },
 ];
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, theme }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-2 border border-gray-200 rounded shadow">
-        <p className="font-normal text-xs text-[#1C1C1C66]">{label}</p>
-        <p className="font-normal text-xs text-[#1C1C1C66]">Actual: {payload[0].value}M</p>
-        <p className="font-normal text-xs text-[#1C1C1C66]">Projected: {(payload[0].value + payload[1].value).toFixed(1)}M</p>
+      <div
+        className={`p-2 border rounded shadow ${
+          theme === "dark"
+            ? "bg-[#282828] border-gray-600"
+            : "bg-white border-gray-200"
+        }`}
+      >
+        <p
+          className={`font-normal text-xs ${
+            theme === "dark" ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
+          {label}
+        </p>
+        <p
+          className={`font-normal text-xs ${
+            theme === "dark" ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
+          Actual: {payload[0].value}M
+        </p>
+        <p
+          className={`font-normal text-xs ${
+            theme === "dark" ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
+          Projected: {(payload[0].value + payload[1].value).toFixed(1)}M
+        </p>
       </div>
     );
   }
   return null;
 };
 
-const Dashboard = () => {
+const Dashboard = ({ theme }) => {
+  const bgClass = theme === "dark" ? "bg-[#282828]" : "bg-white";
+  const textClass = theme === "dark" ? "text-gray-300" : "text-black";
+  const cardBgColor = theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#F7F9FB]";
+  const statTextColor = theme === "dark" ? "text-white" : "text-black";
+
   return (
-    <div className="bg-white p-5 font-inter">
+    <div className={`${bgClass} p-5 font-inter ${textClass}`}>
       <h1 className="text-sm font-semibold mb-6">eCommerce</h1>
       <div className="flex gap-6">
         {/* Statistics Section */}
@@ -65,45 +95,69 @@ const Dashboard = () => {
             value="3,781"
             change="+11.01%"
             bgColor="bg-[#E3F5FF]"
+            textColor={theme === "dark" ? "text-black" : "text-black"}
           />
           <StatCard
             title="Orders"
             value="1,219"
             change="-0.03%"
             isNegative
-            bgColor="bg-[#F7F9FB]"
+            bgColor={cardBgColor}
+            textColor={statTextColor}
           />
           <StatCard
             title="Revenue"
             value="$695"
             change="+15.03%"
-            bgColor="bg-[#F7F9FB]"
+            bgColor={cardBgColor}
+            textColor={statTextColor}
           />
           <StatCard
             title="Growth"
             value="30.1%"
             change="+6.08%"
             bgColor="bg-[#E5ECF6]"
+            textColor={theme === "dark" ? "text-black" : "text-black"}
           />
         </div>
 
         {/* Recharts BarChart */}
-        <div className="col-span-1 lg:col-span-2 w-[50%] bg-[#F7F9FB] rounded-2xl py-6 bg-opacity-60">
+        <div
+          className={`col-span-1 lg:col-span-2 w-[50%] ${cardBgColor} rounded-2xl py-6`}
+        >
           <h2 className="text-sm font-semibold mb-5 ml-6">
-            Projections vs Actuals
+            Projections vs Actual
           </h2>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={chartData} barSize={25}>
-              <CartesianGrid vertical={false} stroke="#E5E5E5" />
-              <XAxis dataKey="name" axisLine={false} tickLine={false} />
+              <CartesianGrid
+                vertical={false}
+                stroke={theme === "dark" ? "#555555" : "#E5E5E5"}
+              />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: theme === "dark" ? "#ffffff" : "#000000" }}
+              />
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(value) => `${value}M`}
+                tick={{ fill: theme === "dark" ? "#ffffff" : "#000000" }}
               />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="actual" stackId="a" fill="#A8C5DA" />
-              <Bar dataKey="projected" stackId="a" fill="#E3F5FF" radius={[5, 5, 0, 0]} />
+              <Tooltip content={<CustomTooltip theme={theme} />} />
+              <Bar
+                dataKey="actual"
+                stackId="a"
+                fill={theme === "dark" ? "#6B7280" : "#A8C5DA"}
+              />
+              <Bar
+                dataKey="projected"
+                stackId="a"
+                fill={theme === "dark" ? "#4B5563" : "#E3F5FF"}
+                radius={[5, 5, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
