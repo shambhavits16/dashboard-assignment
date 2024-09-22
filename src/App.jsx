@@ -99,15 +99,12 @@ const App = () => {
         {/* Main Content Area */}
         <div className="flex flex-col flex-grow relative">
           <Header />
-          <div className="content flex-grow">
+          <div className="">
             <Routes>
               <Route path="/" element={
-                <div className="flex flex-grow">
                   <div className="flex-grow">
                     <Dashboard />
                   </div>
-                  <RightSidebar />
-                </div>
               } />
               <Route path="/orders" element={
                 <div className="content flex-grow">
@@ -117,6 +114,7 @@ const App = () => {
             </Routes>
           </div>
         </div>
+        <RightSidebar />
       </div>
     </Router>
   );
