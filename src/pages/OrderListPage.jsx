@@ -155,6 +155,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
       className={`p-4 font-inter ${theme === "dark" ? "bg-[#1C1C1C] text-white" : "bg-white text-black"
         }`}
     >
+      <div className="my-2 mb-4 mx-2 font-semibold text-sm">Order List</div>
       <div
         className={`flex justify-between items-center px-6 py-2 ${theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#F7F9FB]"
           } rounded-lg mb-4`}

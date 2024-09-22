@@ -13,6 +13,7 @@ import {
   PiChatsTeardropDuotone,
   PiDotOutlineFill,
 } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
   const [openSections, setOpenSections] = useState({
@@ -39,12 +40,12 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
         {
           label: "Overview",
           key: "overview",
-          icon: <PiDotOutlineFill size={16} />,
+          icon: <PiDotOutlineFill size={16} color="#1C1C1C33" />,
         },
         {
           label: "Projects",
           key: "projects",
-          icon: <PiDotOutlineFill size={16} />,
+          icon: <PiDotOutlineFill size={16} color="#1C1C1C33" />,
         },
       ],
     },
@@ -56,6 +57,13 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
           label: "Default",
           key: "default",
           icon: <PiChartPieSliceDuotone size={20} />,
+          link: "/",
+        },
+        {
+          label: "Order List",
+          key: "orderlist",
+          icon: <PiChartPieSliceDuotone size={20} />,
+          link: "/orders",
         },
         {
           label: "eCommerce",
@@ -82,7 +90,13 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
           label: "User Profile",
           key: "user-profile",
           icon: <PiIdentificationBadgeDuotone size={20} />,
-          subItem: ["Overview", "Projects", "Campaigns", "Documents", "Followers"],
+          subItems: [
+            "Overview",
+            "Projects",
+            "Campaigns",
+            "Documents",
+            "Followers",
+          ],
         },
         {
           label: "Account",
@@ -97,7 +111,7 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
         {
           label: "Blog",
           key: "blog",
-          icon: <PiNotebookDuotone size={20} />
+          icon: <PiNotebookDuotone size={20} />,
         },
         {
           label: "Social",
@@ -108,31 +122,33 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
     },
   ];
 
-  // Render each item in the menu
   const renderItems = (items, level = 0) => {
     return items.map((item) => (
       <div key={item.key} className={`ml-${level * 4}`}>
         <div
-          className={`flex items-center py-2 px-4 cursor-pointer ${
-            selectedItem === item.key
+          className={`flex items-center py-2 px-4 cursor-pointer ${selectedItem === item.key
               ? theme === "light"
                 ? "bg-gray-200"
                 : "bg-gray-700"
               : ""
-          }`}
+            }`}
           onClick={() => {
             handleItemClick(item.key);
             if (item.items || item.subItems) toggleSection(item.key);
           }}
         >
           {item.icon && <span className="mr-3">{item.icon}</span>}
-          <span
-            className={`flex-grow ${
-              theme === "light" ? "text-gray-800" : "text-gray-300"
-            } text-sm font-inter font-medium`}
-          >
-            {item.label}
-          </span>
+          {item.link ? (
+            <Link to={item.link} className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
+              } text-sm font-inter font-medium`}>
+              {item.label}
+            </Link>
+          ) : (
+            <span className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
+              } text-sm font-inter font-medium`}>
+              {item.label}
+            </span>
+          )}
           {(item.items || item.subItems) &&
             (openSections[item.key] ? (
               <FiChevronDown className="ml-2" />
@@ -167,36 +183,35 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
     <>
       {rightSidebarOpen && (
         <div
-          className={`w-56 border-r ${
-            theme === "light"
+          className={`w-56 border-r ${theme === "light"
               ? "bg-white text-gray-700"
               : "bg-[#1C1C1C] text-gray-300 border-[#282828]"
-          } border-[#1C1C1C1A] text-sm`}
+            } border-[#1C1C1C1A] text-sm`}
         >
           <div className="p-4 flex items-center space-x-2 ">
             <div
-              className={`w-6 h-6 rounded-full ${
-                theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
-              }`}
-            ><img src="/Images/ByeWind.png" alt="" /></div>
+              className={`w-6 h-6 rounded-full ${theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
+                }`}
+            ></div>
+
             <span
-              className={`font-medium ${
-                theme === "light" ? "text-gray-800" : "text-gray-300"
-              } text-sm font-inter`}
+              className={`font-medium ${theme === "light" ? "text-gray-800" : "text-gray-300"
+                } text-sm font-inter`}
             >
               ByeWind
             </span>
           </div>
+
           <div className="py-2">
             {menuItems.map((section) => (
               <div key={section.key} className="mb-4">
                 <div
-                  className={`px-4 py-2 text-sm font-medium uppercase ${
-                    theme === "light" ? "text-gray-500" : "text-gray-400"
-                  }`}
+                  className={`px-4 py-2 text-sm font-medium uppercase ${theme === "light" ? "text-gray-500" : "text-gray-400"
+                    }`}
                 >
                   {section.label}
                 </div>
+
                 {renderItems(section.items)}
               </div>
             ))}
