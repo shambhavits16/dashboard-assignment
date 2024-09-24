@@ -7,26 +7,31 @@ function RightSidebar({ theme, leftSidebarOpen, toggleLeftSidebar, setLeftSideba
   const notifications = [
     {
       id: 1,
-      message: "You have a bug that needs...",
-      time: "Just now",
+      message: 'You have a bug that needs...',
+      time: 'Just now',
       icon: <PiBugBeetle size={16} />,
+      bgColor: '#E3F5FF',
     },
     {
       id: 2,
-      message: "New user registered",
-      time: "59 minutes ago",
+      message: 'New user registered',
+      time: '59 minutes ago',
       icon: <PiUser size={16} />,
+      bgColor: '#E5ECF6',
     },
     {
       id: 3,
-      message: "You have a bug that needs...",
-      time: "12 hours ago",
+      message: 'You have a bug that needs...',
+      time: '12 hours ago',
+      icon: <PiBugBeetle size={16} />,
+      bgColor: '#E3F5FF',
     },
     {
       id: 4,
-      message: "Andi Lane subscribed to you",
-      time: "Today, 11:59 AM",
+      message: 'Andi Lane subscribed to you',
+      time: 'Today, 11:59 AM',
       icon: <PiBroadcast size={16} />,
+      bgColor: '#E5ECF6',
     },
   ];
 
@@ -107,27 +112,27 @@ function RightSidebar({ theme, leftSidebarOpen, toggleLeftSidebar, setLeftSideba
     theme === "light"
       ? "bg-white text-black"
       : "bg-[#1C1C1C] text-white border-[#282828]";
-  const textSecondary = theme === "light" ? "text-gray-600" : "text-gray-400";
+  const textSecondary = theme === "light" ? "text-gray-500" : "text-gray-400";
 
 
   return (
     <>
       {leftSidebarOpen && (
-        <div className={`p-4 overflow-y-auto border-l ${sidebarClass}`}>
+        <div className={`p-4 overflow-y-auto border-l font-inter ${sidebarClass}`}>
           <div className="mb-8">
             <h2 className="text-sm font-inter font-semibold mb-4">
               Notifications
             </h2>
             {notifications.map((notif) => (
               <div key={notif.id} className="flex items-start mb-4">
-                <div className="mr-3 mt-2">
-                  {notif.icon || <PiBugBeetle size={16} />}
+                <div className={`mr-3 mt-1 rounded-lg p-1 bg-[${notif.bgColor}]`}>
+                  {notif.icon}
                 </div>
                 <div>
                   <p className="text-sm font-inter font-medium">
                     {notif.message}
                   </p>
-                  <p className={`text-xs ${textSecondary}`}>{notif.time}</p>
+                  <p className={`text-xs leading-[18px] font-normal ${textSecondary}`}>{notif.time}</p>
                 </div>
               </div>
             ))}
@@ -144,7 +149,7 @@ function RightSidebar({ theme, leftSidebarOpen, toggleLeftSidebar, setLeftSideba
                   <p className="text-sm font-inter font-medium">
                     {activity.message}
                   </p>
-                  <p className={`text-xs ${textSecondary}`}>{activity.time}</p>
+                  <p className={`text-xs leading-[18px] font-normal ${textSecondary}`}>{activity.time}</p>
                 </div>
               </div>
             ))}

@@ -20,7 +20,7 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
     favorites: true,
     dashboards: true,
     pages: false,
-    userProfile: false,
+    userProfile: true,
   });
   const [selectedItem, setSelectedItem] = useState("default");
 
