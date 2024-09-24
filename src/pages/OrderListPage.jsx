@@ -199,7 +199,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                   type="checkbox"
                   checked={selectAll}
                   onChange={handleSelectAllChange}
-                  className="form-checkbox h-5 w-5"
+                  className="form-checkbox h-4 w-4"
                 />
               </th>
               <th className="px-6 py-3 text-left font-normal text-xs">Order ID</th>
@@ -215,8 +215,8 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
               <tr
                 key={item.key}
                 className={`${theme === "dark"
-                  ? "bg-[#1C1C1C] text-[#FFFFFF] hover:bg-[#282828]"
-                  : "bg-white text-[#1C1C1C] hover:bg-gray-50"
+                  ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]"
+                  : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-50"
                   }`}
                 onMouseEnter={() => setHoveredRow(item.key)}
                 onMouseLeave={() => setHoveredRow(null)}
@@ -284,7 +284,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`px-3 py-1 rounded mx-1 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+          className={`px-3 py-1 rounded mx-1 ${currentPage === 1 ? "opacity-50" : ""
             }`}
         >
           &lt;
@@ -294,19 +294,41 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           <button
             key={index + 1}
             onClick={() => setCurrentPage(index + 1)}
-            className={`px-3 py-1 rounded-lg mx-1 ${currentPage === index + 1 ? "bg-[#1C1C1C0D] text-black" : ""
+            className={`px-3 py-1 rounded-lg mx-1 ${theme === 'dark'
+              ? currentPage === index + 1
+                ? 'bg-[#FFFFFF1A] text-white'
+                : 'bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white'
+              : currentPage === index + 1
+                ? 'bg-[#1C1C1C0D] text-black'
+                : 'bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black'
               }`}
           >
             {index + 1}
           </button>
         ))}
 
+        {/* {[1, 2, 3, 4, 5].map((pageNumber) => (
+          <button
+            key={pageNumber}
+            onClick={() => setCurrentPage(pageNumber)}
+            className={`px-3 py-1 rounded-lg mx-1 ${currentPage === pageNumber
+              ? theme === 'dark'
+                ? 'bg-[#FFFFFF1A] text-white'
+                : 'bg-[#1C1C1C0D] text-black'
+              : theme === 'dark'
+                ? 'bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white'
+                : 'bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black'}`}
+          >
+            {pageNumber}
+          </button>
+        ))} */}
+
         <button
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
           disabled={currentPage === totalPages}
-          className={`px-3 py-1 rounded mx-1 ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+          className={`px-3 py-1 rounded mx-1 ${currentPage === totalPages ? "opacity-50" : ""
             }`}
         >
           &gt;
