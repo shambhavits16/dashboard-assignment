@@ -7,6 +7,7 @@ import { TbArrowsDownUp } from "react-icons/tb";
 import { FiSearch, FiCalendar } from "react-icons/fi";
 import { PiClipboardText } from "react-icons/pi";
 import { IoIosMore } from "react-icons/io";
+import { motion, AnimatePresence } from "framer-motion";
 
 const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   const [data, setData] = useState([
@@ -121,6 +122,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
       status: "Rejected",
     },
   ]);
+  const [filteredData, setFilteredData] = useState(data);
   const [selectAll, setSelectAll] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -129,6 +131,9 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(data.length / itemsPerPage);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  const [filterConfig, setFilterConfig] = useState({});
 
   const handleSelectAllChange = () => {
     const newSelectAll = !selectAll;
@@ -143,6 +148,51 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
     });
     setData(newData);
     setSelectAll(newData.every((item) => item.selected));
+  };
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    const filtered = data.filter(item =>
+      Object.values(item).some(val =>
+        val.toString().toLowerCase().includes(value.toLowerCase())
+      )
+    );
+    setFilteredData(filtered);
+    setCurrentPage(1);
+  };
+
+  const handleSort = () => {
+    setSortConfig(prevConfig => ({
+      key: 'user',
+      direction: prevConfig.direction === 'ascending' ? 'descending' : 'ascending'
+    }));
+  };
+
+  const sortedData = React.useMemo(() => {
+    let sortableItems = [...filteredData];
+    sortableItems.sort((a, b) => {
+      if (a.user < b.user) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (a.user > b.user) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+    return sortableItems;
+  }, [filteredData, sortConfig]);
+
+  const handleFilter = (key, value) => {
+    setFilterConfig(prev => ({ ...prev, [key]: value }));
+  };
+
+  const applyFilters = () => {
+    let filtered = data;
+    Object.entries(filterConfig).forEach(([key, value]) => {
+      filtered = filtered.filter(item => item[key].toString().toLowerCase().includes(value.toLowerCase()));
+    });
+    setFilteredData(filtered);
+    setCurrentPage(1);
   };
 
   const columns = [
@@ -263,20 +313,37 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           } rounded-lg mb-4`}
       >
         <div className="space-x-4">
-          <button className="focus:outline-none hover:text-gray-600">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            // onClick={handleAddNewData}
+            className="focus:outline-none hover:text-gray-600"
+          >
             <AiOutlinePlus size={20} />
-          </button>
-          <button className="focus:outline-none hover:text-gray-600">
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={applyFilters}
+            className="focus:outline-none hover:text-gray-600"
+          >
             <IoFilterOutline size={20} />
-          </button>
-          <button className="focus:outline-none hover:text-gray-600">
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={handleSort}
+            className="focus:outline-none hover:text-gray-600"
+          >
             <TbArrowsDownUp size={20} />
-          </button>
+          </motion.button>
         </div>
         <div className="relative float-right w-fit">
           <input
             type="text"
             placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
             className={`float-right pl-9 pr-4 px-2 py-1 border ${theme === "light"
               ? "bg-white placeholder-[#1C1C1C33] border-[#1C1C1C1A]"
               : "bg-[#1C1C1C] placeholder-[#FFFFFF33] border-[#FFFFFF1A]"
@@ -309,7 +376,9 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Order ID
               </th>
-              <th className="px-6 py-3 text-left font-normal text-xs">User</th>
+              <th className="px-6 py-3 text-left font-normal text-xs cursor-pointer" onClick={handleSort}>
+                User {sortConfig.direction === 'ascending' ? '▲' : '▼'}
+              </th>
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Project
               </th>
@@ -322,10 +391,15 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
               </th>
             </tr>
           </thead>
+          <AnimatePresence>
           <tbody>
             {data.map((item) => (
-              <tr
+              <motion.tr
                 key={item.key}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
                 className={`${theme === "dark"
                   ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]"
                   : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-50"
@@ -392,9 +466,10 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                     </div>
                   </div>
                 </td>
-              </tr>
+              </motion.tr>
             ))}
-          </tbody>
+            </tbody>
+          </AnimatePresence>
         </table>
       </div>
       <div className="flex justify-end mt-4 space-x-2">
