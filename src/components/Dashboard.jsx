@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import ProjectionsChart from "./ProjectionsChart";
 import RevenueChart from "./RevenueChart";
 import TopSellingProducts from "./TopSellingProducts";
 import StatCard from "./StatCard";
 import TotalSales from "./TotalSales";
+import { motion } from "framer-motion";
 
 const productData = [
   {
@@ -71,34 +73,71 @@ const productData = [
   },
 ];
 
-// Accept the `themeClass` prop to conditionally apply dark or light mode styles
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
+
 function Dashboard({ themeClass }) {
   return (
-    <div className={`min-h-screen p-5 ${themeClass}`}>
-      {/* StatCard and charts are unchanged */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Top Row: Full-width Stat Card */}
-        <div className={`md:col-span-2 lg:col-span-3`}>
+    <motion.div
+      className={`min-h-screen p-2 sm:p-3 md:p-5 ${themeClass}`}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
+        <motion.div
+          className={`sm:col-span-2 lg:col-span-3`}
+          variants={itemVariants}
+        >
           <StatCard theme={themeClass} />
-        </div>
+        </motion.div>
 
-        {/* Second Row: Line Chart and Map Chart (ProjectionsChart as a placeholder for Map) */}
-        <div className="md:col-span-1 lg:col-span-2">
+        <motion.div
+          className="sm:col-span-2 lg:col-span-2"
+          variants={itemVariants}
+        >
           <RevenueChart theme={themeClass} />
-        </div>
-        <div className="md:col-span-1 lg:col-span-1">
+        </motion.div>
+        <motion.div
+          className="sm:col-span-2 lg:col-span-1"
+          variants={itemVariants}
+        >
           <ProjectionsChart theme={themeClass} />
-        </div>
+        </motion.div>
 
-        {/* Third Row: Table and Pie Chart (TotalSales as a placeholder for Pie Chart) */}
-        <div className="md:col-span-1 lg:col-span-2">
+        <motion.div
+          className="sm:col-span-2 lg:col-span-2"
+          variants={itemVariants}
+        >
           <TopSellingProducts products={productData} theme={themeClass} />
-        </div>
-        <div className="md:col-span-1 lg:col-span-1">
+        </motion.div>
+        <motion.div
+          className="sm:col-span-2 lg:col-span-1"
+          variants={itemVariants}
+        >
           <TotalSales theme={themeClass} />
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

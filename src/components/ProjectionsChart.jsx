@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { motion } from "framer-motion";
 
 const locations = [
   { name: "New York", revenue: 72000 },
@@ -16,47 +17,88 @@ const ProjectionsChart = ({ theme }) => {
   const textColor = theme === "light" ? "text-black" : "text-white";
   const barColor = theme === "light" ? "bg-[#A8C5DA]" : "bg-[#4B5563]";
 
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
+  const barVariants = {
+    hidden: { width: 0 },
+    visible: (custom) => ({
+      width: `${(custom / maxRevenue) * 100}%`,
+      transition: { duration: 0.8, ease: "easeOut" },
+    }),
+  };
+
   return (
-    <div
-      className={`w-full max-w-xs mx-auto rounded-2xl p-6 h-fit font-inter ${chartBg}`}
+    <motion.div
+      className={`w-full xl:max-w-sm mx-auto rounded-2xl border dark:border-none p-4 h-fit font-inter ${chartBg}`}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
     >
-      <div className="p-6">
-        <h2
-          className={`text-sm font-semibold font-inter mb-4 text-center ${textColor}`}
+      <div className="p-2 sm:p-4 md:p-6">
+        <motion.h2
+          className={`text-sm sm:text-base font-semibold font-inter mb-4 text-center ${textColor}`}
+          variants={itemVariants}
         >
           Revenue by Location
-        </h2>
-        <div className="mb-3 relative">
-          <img src="/Images/WorldMap.png" alt="" />
-        </div>
-        <div className="space-y-2">
+        </motion.h2>
+        <motion.div className="mb-3 relative" variants={itemVariants}>
+          <img
+            src="/Images/WorldMap.png"
+            alt="World Map"
+            className="w-full h-auto"
+          />
+        </motion.div>
+        <div className="space-y-2 sm:space-y-3">
           {locations.map((location, index) => (
-            <div key={index} className="flex-col justify-between items-center">
+            <motion.div
+              key={index}
+              className="flex-col justify-between items-center"
+              variants={itemVariants}
+            >
               <div className="w-full flex items-center justify-between">
                 <span
-                  className={`text-xs font-inter font-normal leading-[18px] ${textColor}`}
+                  className={`text-xs sm:text-sm font-inter font-normal leading-[18px] ${textColor}`}
                 >
                   {location.name}
                 </span>
                 <span
-                  className={`ml-2 text-xs font-inter font-normal leading-[18px] ${textColor}`}
+                  className={`ml-2 text-xs sm:text-sm font-inter font-normal leading-[18px] ${textColor}`}
                 >
                   {`${(location.revenue / 1000).toFixed(0)}K`}
                 </span>
               </div>
-              <div className="flex-grow my-1">
-                <div
-                  className={`${barColor} h-[2px]`}
-                  style={{
-                    width: `${(location.revenue / maxRevenue) * 100}%`, // Dynamic width based on revenue
-                  }}
-                ></div>
+              <div className="flex-grow my-1 sm:my-2">
+                <motion.div
+                  className={`${barColor} h-[2px] sm:h-[3px]`}
+                  variants={barVariants}
+                  custom={location.revenue}
+                ></motion.div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

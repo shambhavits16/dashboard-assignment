@@ -2,12 +2,13 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
-
-
 const TotalSales = ({ theme }) => {
-
   const data = [
-    { name: "Direct", value: 300.56, color: theme === 'dark' ? "#C6C7F8" :"#1C1C1C" },
+    {
+      name: "Direct",
+      value: 300.56,
+      color: theme === "dark" ? "#C6C7F8" : "#1C1C1C",
+    },
     { name: "Affiliate", value: 135.18, color: "#BAEDBD" },
     { name: "Sponsored", value: 154.02, color: "#95A4FC" },
     { name: "E-mail", value: 48.96, color: "#B1E3FF" },
@@ -19,7 +20,7 @@ const TotalSales = ({ theme }) => {
 
   return (
     <div
-      className={`w-full max-w-xs mx-auto rounded-2xl p-6 h-fit font-inter ${containerClass}`}
+      className={`w-full lg:max-w-md mx-auto rounded-2xl p-6 h-fit font-inter ${containerClass} border dark:border-none`}
     >
       <h2 className="text-sm font-semibold mb-4">Total Sales</h2>
       <ResponsiveContainer width="100%" height={210}>

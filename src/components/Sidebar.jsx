@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import {
   PiChartPieSliceDuotone,
@@ -12,10 +12,12 @@ import {
   PiNotebookDuotone,
   PiChatsTeardropDuotone,
   PiDotOutlineFill,
+  PiSidebarDuotone,
+  PiListBulletsDuotone
 } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
-const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
+const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
   const [openSections, setOpenSections] = useState({
     favorites: true,
     dashboards: true,
@@ -23,6 +25,23 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
     userProfile: true,
   });
   const [selectedItem, setSelectedItem] = useState("default");
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Listen for screen width changes and update isMobile accordingly
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1100);
+    };
+
+    // Run the check on mount
+    handleResize();
+
+    // Add event listener for resizing
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -30,6 +49,11 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
 
   const handleItemClick = (itemKey) => {
     setSelectedItem(itemKey);
+  };
+
+  const toggleSidebar = () => {
+    toggleRightSidebar(!rightSidebarOpen);
+    console.log(!rightSidebarOpen);
   };
 
   const menuItems = [
@@ -62,7 +86,7 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
         {
           label: "Order List",
           key: "orderlist",
-          icon: <PiChartPieSliceDuotone size={20} />,
+          icon: <PiListBulletsDuotone size={20} />,
           link: "/orders",
         },
         {
@@ -126,10 +150,10 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
     return items.map((item) => (
       <div key={item.key} className={`ml-${level * 4}`}>
         <div
-          className={`flex items-center py-2 px-4 cursor-pointer ${selectedItem === item.key
+          className={`flex items-center py-[6px] px-4 cursor-pointer w-[95%] mx-auto rounded-lg relative ${selectedItem === item.key
               ? theme === "light"
-                ? "bg-gray-200"
-                : "bg-[#282828]"
+                ? "bg-gray-200 "
+                : "bg-[#282828] "
               : ""
             }`}
           onClick={() => {
@@ -137,15 +161,30 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
             if (item.items || item.subItems) toggleSection(item.key);
           }}
         >
+          {selectedItem === item.key ? (
+            theme === "light" ? (
+              <div className="w-1 h-4 rounded-md absolute left-2 bg-black"></div>
+            ) : (
+              ""
+            )
+          ) : (
+            ""
+          )}
+
           {item.icon && <span className="mr-3">{item.icon}</span>}
           {item.link ? (
-            <Link to={item.link} className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
-              } text-sm font-inter font-medium`}>
+            <Link
+              to={item.link}
+              className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
+                } text-sm font-inter font-medium`}
+            >
               {item.label}
             </Link>
           ) : (
-            <span className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
-              } text-sm font-inter font-medium`}>
+            <span
+              className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
+                } text-sm font-inter font-medium`}
+            >
               {item.label}
             </span>
           )}
@@ -160,10 +199,10 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
           <div className="ml-4">{renderItems(item.items, level + 1)}</div>
         )}
         {openSections[item.key] && item.subItems && (
-          <div className="ml-8">
+          <div className="ml-10">
             {item.subItems.map((subItem, subIndex) => (
               <div key={subIndex} className="py-1 flex items-center">
-                <span className="mr-2 text-xs">•</span>
+                {/* <span className="mr-2 text-xs">•</span> */}
                 <span
                   className={
                     theme === "light" ? "text-gray-600" : "text-gray-400"
@@ -183,25 +222,35 @@ const Sidebar = ({ theme, toggleRightSidebar, rightSidebarOpen }) => {
     <>
       {rightSidebarOpen && (
         <div
-          className={`w-56 border-r ${theme === "light"
+          className={`min-w-56 border-r ${theme === "light"
               ? "bg-white text-gray-700"
               : "bg-[#1C1C1C] text-gray-300 border-[#282828]"
-            } border-[#1C1C1C1A] text-sm`}
+            } border-[#1C1C1C1A] text-sm ${isMobile ? "absolute top-0 left-0 z-50" : "relative"
+            }`}
         >
-          <div className="p-4 flex items-center space-x-2 ">
-            <div
-              className={`w-6 h-6 rounded-full ${theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
-                }`}
-            >
-              <img src="/Images/ByeWind.png" alt="" />
-            </div>
+          <div className="flex justify-between items-center">
+            <div className="p-4 flex items-center space-x-2 ">
+              <div
+                className={`w-6 h-6 rounded-full ${theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
+                  }`}
+              >
+                <img src="/Images/ByeWind.png" alt="" />
+              </div>
 
-            <span
-              className={`font-medium ${theme === "light" ? "text-gray-800" : "text-gray-300"
-                } text-sm font-inter`}
-            >
-              ByeWind
-            </span>
+              <span
+                className={`font-medium ${theme === "light" ? "text-gray-800" : "text-gray-300"
+                  } text-sm font-inter`}
+              >
+                ByeWind
+              </span>
+            </div>
+            {isMobile && (
+              <PiSidebarDuotone
+                className="cursor-pointer mr-4"
+                size={20}
+                onClick={toggleSidebar}
+              />
+            )}
           </div>
 
           <div className="py-2">

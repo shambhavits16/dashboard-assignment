@@ -10,17 +10,116 @@ import { IoIosMore } from "react-icons/io";
 
 const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   const [data, setData] = useState([
-    { key: '1', selected: false, orderID: '#CM9801', user: 'Natali Craig', avatar: '/Images/NataliCraig.png', project: 'Landing Page', address: 'Meadow Lane Oakland', date: 'Just now', status: 'In Progress' },
-    { key: '2', selected: false, orderID: '#CM9802', user: 'Kate Morrison', avatar: '/Images/KateMorrison.png', project: 'CRM Admin pages', address: 'Larry San Francisco', date: 'A minute ago', status: 'Complete' },
-    { key: '3', selected: false, orderID: '#CM9803', user: 'Drew Cano', avatar: '/Images/DrewCano.png', project: 'Client Project', address: 'Bagwell Avenue Ocala', date: '1 hour ago', status: 'Pending' },
-    { key: '4', selected: true, orderID: '#CM9804', user: 'Orlando Diggs', avatar: '/Images/OrlandoDiggs.png', project: 'Admin Dashboard', address: 'Washburn Baton Rouge', date: 'Yesterday', status: 'Approved' },
-    { key: '5', selected: false, orderID: '#CM9805', user: 'Andi Lane', avatar: '/Images/AndiLane.png', project: 'App Landing Page', address: 'Nest Lane Olivette', date: 'Feb 2, 2023', status: 'Rejected' },
-    { key: '6', selected: false, orderID: '#CM9801', user: 'Natali Craig', avatar: '/Images/NataliCraig.png', project: 'Landing Page', address: 'Meadow Lane Oakland', date: 'Just now', status: 'In Progress' },
-    { key: '7', selected: false, orderID: '#CM9802', user: 'Kate Morrison', avatar: '/Images/KateMorrison.png', project: 'CRM Admin pages', address: 'Larry San Francisco', date: 'A minute ago', status: 'Complete' },
-    { key: '8', selected: false, orderID: '#CM9803', user: 'Drew Cano', avatar: '/Images/DrewCano.png', project: 'Client Project', address: 'Bagwell Avenue Ocala', date: '1 hour ago', status: 'Pending' },
-    { key: '9', selected: false, orderID: '#CM9804', user: 'Orlando Diggs', avatar: '/Images/OrlandoDiggs.png', project: 'Admin Dashboard', address: 'Washburn Baton Rouge', date: 'Yesterday', status: 'Approved' },
-    { key: '10', selected: false, orderID: '#CM9805', user: 'Andi Lane', avatar: '/Images/AndiLane.png', project: 'App Landing Page', address: 'Nest Lane Olivette', date: 'Feb 2, 2023', status: 'Rejected' },
-
+    {
+      key: "1",
+      selected: false,
+      orderID: "#CM9801",
+      user: "Natali Craig",
+      avatar: "/Images/NataliCraig.png",
+      project: "Landing Page",
+      address: "Meadow Lane Oakland",
+      date: "Just now",
+      status: "In Progress",
+    },
+    {
+      key: "2",
+      selected: false,
+      orderID: "#CM9802",
+      user: "Kate Morrison",
+      avatar: "/Images/KateMorrison.png",
+      project: "CRM Admin pages",
+      address: "Larry San Francisco",
+      date: "A minute ago",
+      status: "Complete",
+    },
+    {
+      key: "3",
+      selected: false,
+      orderID: "#CM9803",
+      user: "Drew Cano",
+      avatar: "/Images/DrewCano.png",
+      project: "Client Project",
+      address: "Bagwell Avenue Ocala",
+      date: "1 hour ago",
+      status: "Pending",
+    },
+    {
+      key: "4",
+      selected: true,
+      orderID: "#CM9804",
+      user: "Orlando Diggs",
+      avatar: "/Images/OrlandoDiggs.png",
+      project: "Admin Dashboard",
+      address: "Washburn Baton Rouge",
+      date: "Yesterday",
+      status: "Approved",
+    },
+    {
+      key: "5",
+      selected: false,
+      orderID: "#CM9805",
+      user: "Andi Lane",
+      avatar: "/Images/AndiLane.png",
+      project: "App Landing Page",
+      address: "Nest Lane Olivette",
+      date: "Feb 2, 2023",
+      status: "Rejected",
+    },
+    {
+      key: "6",
+      selected: false,
+      orderID: "#CM9801",
+      user: "Natali Craig",
+      avatar: "/Images/NataliCraig.png",
+      project: "Landing Page",
+      address: "Meadow Lane Oakland",
+      date: "Just now",
+      status: "In Progress",
+    },
+    {
+      key: "7",
+      selected: false,
+      orderID: "#CM9802",
+      user: "Kate Morrison",
+      avatar: "/Images/KateMorrison.png",
+      project: "CRM Admin pages",
+      address: "Larry San Francisco",
+      date: "A minute ago",
+      status: "Complete",
+    },
+    {
+      key: "8",
+      selected: false,
+      orderID: "#CM9803",
+      user: "Drew Cano",
+      avatar: "/Images/DrewCano.png",
+      project: "Client Project",
+      address: "Bagwell Avenue Ocala",
+      date: "1 hour ago",
+      status: "Pending",
+    },
+    {
+      key: "9",
+      selected: false,
+      orderID: "#CM9804",
+      user: "Orlando Diggs",
+      avatar: "/Images/OrlandoDiggs.png",
+      project: "Admin Dashboard",
+      address: "Washburn Baton Rouge",
+      date: "Yesterday",
+      status: "Approved",
+    },
+    {
+      key: "10",
+      selected: false,
+      orderID: "#CM9805",
+      user: "Andi Lane",
+      avatar: "/Images/AndiLane.png",
+      project: "App Landing Page",
+      address: "Nest Lane Olivette",
+      date: "Feb 2, 2023",
+      status: "Rejected",
+    },
   ]);
   const [selectAll, setSelectAll] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
@@ -137,7 +236,10 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
       Complete: { text: "#4AA785", dot: "#A1E3CB" },
       Pending: { text: "#59A8D4", dot: "#B1E3FF" },
       Approved: { text: "#FFC555", dot: "#FFE999" },
-      Rejected: { text: theme === "dark" ? "#FFFFFF66" : "#1C1C1C66", dot: theme === "dark" ? "#FFFFFF66" : "#1C1C1C66" },
+      Rejected: {
+        text: theme === "dark" ? "#FFFFFF66" : "#1C1C1C66",
+        dot: theme === "dark" ? "#FFFFFF66" : "#1C1C1C66",
+      },
     };
     return statusColors[status] || { text: "#000", dot: "#000" };
   };
@@ -192,22 +294,33 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
         <table className="min-w-full">
           <thead>
             <tr
-              className={`${theme === "dark" ? "bg-[#FFFFFF0D] border-b border-[#FFFFFF1A] text-[#FFFFFF66]" : "bg-white text-[#1C1C1C66]"} border-b border-[#1C1C1C33]`}
+              className={`${theme === "dark"
+                ? "bg-[#FFFFFF0D] border-b border-[#FFFFFF1A] text-[#FFFFFF66]"
+                : "bg-white text-[#1C1C1C66]"
+                } border-b border-[#1C1C1C33]`}
             >
               <th className="px-6 py-3 text-left">
                 <input
                   type="checkbox"
                   checked={selectAll}
                   onChange={handleSelectAllChange}
-                  className="form-checkbox h-4 w-4"
+                  className={`h-4 w-4 border cursor-pointer ${theme === "dark" ? "border-[#FFFFFF33]" : "border-[#1C1C1C33]"}`}
                 />
               </th>
-              <th className="px-6 py-3 text-left font-normal text-xs">Order ID</th>
+              <th className="px-6 py-3 text-left font-normal text-xs">
+                Order ID
+              </th>
               <th className="px-6 py-3 text-left font-normal text-xs">User</th>
-              <th className="px-6 py-3 text-left font-normal text-xs">Project</th>
-              <th className="px-6 py-3 text-left font-normal text-xs">Address</th>
+              <th className="px-6 py-3 text-left font-normal text-xs">
+                Project
+              </th>
+              <th className="px-6 py-3 text-left font-normal text-xs">
+                Address
+              </th>
               <th className="px-6 py-3 text-left font-normal text-xs">Date</th>
-              <th className="px-6 py-3 text-left font-normal text-xs">Status</th>
+              <th className="px-6 py-3 text-left font-normal text-xs">
+                Status
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -226,10 +339,13 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                     type="checkbox"
                     checked={item.selected}
                     onChange={() => handleCheckboxChange(item.key)}
-                    className="form-checkbox h-4 w-4"
+                    className={`form-checkbox h-4 w-4 transition-opacity duration-300 ease-in-out ${item.selected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                      }`}
                   />
                 </td>
-                <td className="px-6 py-4 text-xs font-normal">{item.orderID}</td>
+                <td className="px-6 py-4 text-xs font-normal">
+                  {item.orderID}
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center text-xs font-normal">
                     <img
@@ -240,7 +356,9 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                     {item.user}
                   </div>
                 </td>
-                <td className="px-6 py-4 text-xs font-normal">{item.project}</td>
+                <td className="px-6 py-4 text-xs font-normal">
+                  {item.project}
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center text-xs font-normal">
                     {item.address}
@@ -294,13 +412,13 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           <button
             key={index + 1}
             onClick={() => setCurrentPage(index + 1)}
-            className={`px-3 py-1 rounded-lg mx-1 ${theme === 'dark'
+            className={`px-3 py-1 rounded-lg mx-1 ${theme === "dark"
               ? currentPage === index + 1
-                ? 'bg-[#FFFFFF1A] text-white'
-                : 'bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white'
+                ? "bg-[#FFFFFF1A] text-white"
+                : "bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white"
               : currentPage === index + 1
-                ? 'bg-[#1C1C1C0D] text-black'
-                : 'bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black'
+                ? "bg-[#1C1C1C0D] text-black"
+                : "bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black"
               }`}
           >
             {index + 1}
