@@ -277,14 +277,13 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           <input
             type="text"
             placeholder="Search"
-            className={`float-right pl-10 pr-4 py-2 ${theme === "light"
-              ? "bg-[#1C1C1C0D] text-[#1C1C1C33]"
-              : "bg-gray-950 text-gray-200"
-              } text-sm font-normal font-inter rounded-lg focus:outline-none focus:ring-1 ${theme === "light" ? "focus:ring-gray-400" : "focus:ring-gray-500"
-              }`}
+            className={`float-right pl-9 pr-4 px-2 py-1 border ${theme === "light"
+              ? "bg-white placeholder-[#1C1C1C33] border-[#1C1C1C1A]"
+              : "bg-[#1C1C1C] placeholder-[#FFFFFF33] border-[#FFFFFF1A]"
+              } font-inter rounded-lg focus:outline-none focus:ring-1 ${theme === "light" ? "focus:ring-gray-400" : "focus:ring-gray-500"}`}
           />
           <FiSearch
-            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "light" ? "text-gray-400" : "text-gray-300"
+            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"
               }`}
             size={16}
           />
