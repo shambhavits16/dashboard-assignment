@@ -118,21 +118,21 @@ function RightSidebar({ theme, leftSidebarOpen, toggleLeftSidebar, setLeftSideba
   return (
     <>
       {leftSidebarOpen && (
-        <div className={`p-4 overflow-y-auto border-l font-inter ${sidebarClass}`}>
+        <div className={`p-4 overflow-y-auto border-l font-inter ${theme === "dark" ? "border-[#FFFFFF1A]" : "border-[#1C1C1C1A]"}`}>
           <div className="mb-8">
-            <h2 className="text-sm font-inter font-semibold mb-4">
+            <h2 className={`text-sm font-inter font-semibold mb-4 ${sidebarClass}`}>
               Notifications
             </h2>
             {notifications.map((notif) => (
               <div key={notif.id} className="flex items-start mb-4">
-                <div className={`mr-3 mt-1 rounded-lg p-1 bg-[${notif.bgColor}]`}>
+                <div className={`mr-3 mt-1 rounded-lg text-black p-1 bg-[${notif.bgColor}]`}>
                   {notif.icon}
                 </div>
                 <div>
-                  <p className="text-sm font-inter font-medium">
+                  <p className={`text-sm font-inter font-medium ${sidebarClass}`}>
                     {notif.message}
                   </p>
-                  <p className={`text-xs leading-[18px] font-normal ${textSecondary}`}>{notif.time}</p>
+                  <p className={`text-xs leading-[18px] font-normal ${textSecondary} ${sidebarClass}`}>{notif.time}</p>
                 </div>
               </div>
             ))}
