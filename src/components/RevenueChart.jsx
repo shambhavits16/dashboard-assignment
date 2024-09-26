@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -29,6 +31,7 @@ const RevenueChart = ({ theme }) => {
       : "bg-[#282828] bg-opacity-80";
 
   const textClass = theme === "light" ? "text-[#1C1C1C]" : "text-gray-300";
+  const currentWeekLineColor = theme === 'dark' ? '#C6C7F8' : '#1C1C1C';
 
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.9 },
@@ -77,7 +80,7 @@ const RevenueChart = ({ theme }) => {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="w-2 h-2 bg-[#1C1C1C] rounded-full mr-2"></div>
+                <div className={`w-2 h-2 rounded-full mr-2 ${theme === "dark" ? "bg-[#C6C7F8]" : "bg-[#1C1C1C]"}`}></div>
                 <span className={`font-normal ${textClass}`}>Current Week</span>
                 <span className="ml-2 font-semibold">
                   ${currentWeekRevenue.toLocaleString()}
@@ -147,7 +150,7 @@ const RevenueChart = ({ theme }) => {
               <Line
                 type="monotone"
                 dataKey="current"
-                stroke="#000000"
+                stroke={currentWeekLineColor}
                 strokeWidth={2}
                 dot={false}
                 strokeDasharray="4 4"
