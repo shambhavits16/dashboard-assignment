@@ -132,7 +132,10 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
   const [filterConfig, setFilterConfig] = useState({});
 
   const handleSelectAllChange = () => {
@@ -152,8 +155,8 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    const filtered = data.filter(item =>
-      Object.values(item).some(val =>
+    const filtered = data.filter((item) =>
+      Object.values(item).some((val) =>
         val.toString().toLowerCase().includes(value.toLowerCase())
       )
     );
@@ -162,9 +165,10 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   };
 
   const handleSort = () => {
-    setSortConfig(prevConfig => ({
-      key: 'user',
-      direction: prevConfig.direction === 'ascending' ? 'descending' : 'ascending'
+    setSortConfig((prevConfig) => ({
+      key: "user",
+      direction:
+        prevConfig.direction === "ascending" ? "descending" : "ascending",
     }));
   };
 
@@ -172,10 +176,10 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
     let sortableItems = [...filteredData];
     sortableItems.sort((a, b) => {
       if (a.user < b.user) {
-        return sortConfig.direction === 'ascending' ? -1 : 1;
+        return sortConfig.direction === "ascending" ? -1 : 1;
       }
       if (a.user > b.user) {
-        return sortConfig.direction === 'ascending' ? 1 : -1;
+        return sortConfig.direction === "ascending" ? 1 : -1;
       }
       return 0;
     });
@@ -183,13 +187,15 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   }, [filteredData, sortConfig]);
 
   const handleFilter = (key, value) => {
-    setFilterConfig(prev => ({ ...prev, [key]: value }));
+    setFilterConfig((prev) => ({ ...prev, [key]: value }));
   };
 
   const applyFilters = () => {
     let filtered = data;
     Object.entries(filterConfig).forEach(([key, value]) => {
-      filtered = filtered.filter(item => item[key].toString().toLowerCase().includes(value.toLowerCase()));
+      filtered = filtered.filter((item) =>
+        item[key].toString().toLowerCase().includes(value.toLowerCase())
+      );
     });
     setFilteredData(filtered);
     setCurrentPage(1);
@@ -345,9 +351,10 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             className={`float-right pl-9 pr-4 px-2 py-1 border ${theme === "light"
-              ? "bg-white placeholder-[#1C1C1C33] border-[#1C1C1C1A]"
-              : "bg-[#1C1C1C] placeholder-[#FFFFFF33] border-[#FFFFFF1A]"
-              } font-inter rounded-lg focus:outline-none focus:ring-1 ${theme === "light" ? "focus:ring-gray-400" : "focus:ring-gray-500"}`}
+                ? "bg-white placeholder-[#1C1C1C33] border-[#1C1C1C1A]"
+                : "bg-[#1C1C1C] placeholder-[#FFFFFF33] border-[#FFFFFF1A]"
+              } font-inter rounded-lg focus:outline-none focus:ring-1 ${theme === "light" ? "focus:ring-gray-400" : "focus:ring-gray-500"
+              }`}
           />
           <FiSearch
             className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"
@@ -361,8 +368,8 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           <thead>
             <tr
               className={`${theme === "dark"
-                ? "bg-[#FFFFFF0D] border-b border-[#FFFFFF1A] text-[#FFFFFF66]"
-                : "bg-white text-[#1C1C1C66]"
+                  ? "bg-[#FFFFFF0D] border-b border-[#FFFFFF1A] text-[#FFFFFF66]"
+                  : "bg-white text-[#1C1C1C66]"
                 } border-b border-[#1C1C1C33]`}
             >
               <th className="px-6 py-3 text-left">
@@ -370,14 +377,20 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                   type="checkbox"
                   checked={selectAll}
                   onChange={handleSelectAllChange}
-                  className={`h-4 w-4 border cursor-pointer ${theme === "dark" ? "border-[#FFFFFF33]" : "border-[#1C1C1C33]"}`}
+                  className={`h-4 w-4 border cursor-pointer ${theme === "dark"
+                      ? "border-[#FFFFFF33]"
+                      : "border-[#1C1C1C33]"
+                    }`}
                 />
               </th>
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Order ID
               </th>
-              <th className="px-6 py-3 text-left font-normal text-xs cursor-pointer" onClick={handleSort}>
-                User {sortConfig.direction === 'ascending' ? '▲' : '▼'}
+              <th
+                className="px-6 py-3 text-left font-normal text-xs cursor-pointer"
+                onClick={handleSort}
+              >
+                User {sortConfig.direction === "ascending" ? "▲" : "▼"}
               </th>
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Project
@@ -392,82 +405,84 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
             </tr>
           </thead>
           <AnimatePresence>
-          <tbody>
-            {data.map((item) => (
-              <motion.tr
-                key={item.key}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`${theme === "dark"
-                  ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]"
-                  : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-50"
-                  }`}
-                onMouseEnter={() => setHoveredRow(item.key)}
-                onMouseLeave={() => setHoveredRow(null)}
-              >
-                <td className="px-6 py-4">
-                  <input
-                    type="checkbox"
-                    checked={item.selected}
-                    onChange={() => handleCheckboxChange(item.key)}
-                    className={`form-checkbox h-4 w-4 transition-opacity duration-300 ease-in-out ${item.selected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                      }`}
-                  />
-                </td>
-                <td className="px-6 py-4 text-xs font-normal">
-                  {item.orderID}
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center text-xs font-normal">
-                    <img
-                      src={item.avatar}
-                      alt="user"
-                      className="w-8 h-8 rounded-full mr-2"
-                    />
-                    {item.user}
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-xs font-normal">
-                  {item.project}
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center text-xs font-normal">
-                    {item.address}
-                    <PiClipboardText
-                      className={`ml-2 ${hoveredRow === item.key ? "visible" : "invisible"
+            <tbody>
+              {data.map((item) => (
+                <motion.tr
+                  key={item.key}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`${theme === "dark"
+                      ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]"
+                      : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-50"
+                    }`}
+                  onMouseEnter={() => setHoveredRow(item.key)}
+                  onMouseLeave={() => setHoveredRow(null)}
+                >
+                  <td className="px-6 py-4">
+                    <input
+                      type="checkbox"
+                      checked={item.selected}
+                      onChange={() => handleCheckboxChange(item.key)}
+                      className={`form-checkbox h-4 w-4 transition-opacity duration-300 ease-in-out ${item.selected
+                          ? "opacity-100 hover:border"
+                          : "hover:border-gray-500 hover:border duration-300 transition-transform cursor-pointer"
                         }`}
                     />
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center text-xs font-normal">
-                    <FiCalendar className="mr-1" />
-                    {item.date}
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center text-xs font-normal">
-                    <span
-                      className="h-2 w-2 rounded-full mr-2"
-                      style={{
-                        backgroundColor: getStatusColor(item.status).dot,
-                      }}
-                    ></span>
-                    <span style={{ color: getStatusColor(item.status).text }}>
-                      {item.status}
-                    </span>
-                    <div
-                      className={`${hoveredRow === item.key ? "visible" : "invisible"
-                        }`}
-                    >
-                      <IoIosMore size={16} className="ml-5" />
+                  </td>
+                  <td className="px-6 py-4 text-xs font-normal">
+                    {item.orderID}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center text-xs font-normal">
+                      <img
+                        src={item.avatar}
+                        alt="user"
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      {item.user}
                     </div>
-                  </div>
-                </td>
-              </motion.tr>
-            ))}
+                  </td>
+                  <td className="px-6 py-4 text-xs font-normal">
+                    {item.project}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center text-xs font-normal">
+                      {item.address}
+                      <PiClipboardText
+                        className={`ml-2 ${hoveredRow === item.key ? "visible" : "invisible"
+                          }`}
+                      />
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center text-xs font-normal">
+                      <FiCalendar className="mr-1" />
+                      {item.date}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center text-xs font-normal">
+                      <span
+                        className="h-2 w-2 rounded-full mr-2"
+                        style={{
+                          backgroundColor: getStatusColor(item.status).dot,
+                        }}
+                      ></span>
+                      <span style={{ color: getStatusColor(item.status).text }}>
+                        {item.status}
+                      </span>
+                      <div
+                        className={`${hoveredRow === item.key ? "visible" : "invisible"
+                          }`}
+                      >
+                        <IoIosMore size={16} className="ml-5" />
+                      </div>
+                    </div>
+                  </td>
+                </motion.tr>
+              ))}
             </tbody>
           </AnimatePresence>
         </table>
@@ -487,12 +502,12 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
             key={index + 1}
             onClick={() => setCurrentPage(index + 1)}
             className={`px-3 py-1 rounded-lg mx-1 ${theme === "dark"
-              ? currentPage === index + 1
-                ? "bg-[#FFFFFF1A] text-white"
-                : "bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white"
-              : currentPage === index + 1
-                ? "bg-[#1C1C1C0D] text-black"
-                : "bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black"
+                ? currentPage === index + 1
+                  ? "bg-[#FFFFFF1A] text-white"
+                  : "bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white"
+                : currentPage === index + 1
+                  ? "bg-[#1C1C1C0D] text-black"
+                  : "bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black"
               }`}
           >
             {index + 1}

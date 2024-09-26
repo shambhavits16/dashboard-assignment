@@ -13,9 +13,9 @@ import {
   PiChatsTeardropDuotone,
   PiDotOutlineFill,
   PiSidebarDuotone,
-  PiListBulletsDuotone
+  PiListBulletsDuotone,
 } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
   const [openSections, setOpenSections] = useState({
@@ -26,6 +26,7 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
   });
   const [selectedItem, setSelectedItem] = useState("default");
   const [isMobile, setIsMobile] = useState(false);
+  const location = useLocation();
 
   // Listen for screen width changes and update isMobile accordingly
   useEffect(() => {
@@ -58,7 +59,12 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
 
   const menuItems = [
     {
-      label: "Favorites",
+      label: (
+        <div className="flex justify-between items-center float-right w-full">
+          <h1>Favorites</h1>
+          <h1>Recently</h1>
+        </div>
+      ),
       key: "favorites",
       items: [
         {
@@ -82,27 +88,44 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
           key: "default",
           icon: <PiChartPieSliceDuotone size={20} />,
           link: "/",
+          // subItems: [""],
         },
         {
           label: "Order List",
           key: "orderlist",
           icon: <PiListBulletsDuotone size={20} />,
           link: "/orders",
+          // subItems: [],
         },
         {
           label: "eCommerce",
           key: "ecommerce",
           icon: <PiShoppingBagOpenDuotone size={20} />,
+          subItems: [
+            "Overview",
+            "Projects",
+            "Campaigns",
+            "Documents",
+            "Followers",
+          ],
         },
         {
           label: "Projects",
           key: "dashboard-projects",
           icon: <PiFolderDuotone size={20} />,
+          subItems: ["demo 1", "demo 2", "demo 3", "demo 4", "demo 5"],
         },
         {
           label: "Online Courses",
           key: "online-courses",
           icon: <PiBookOpenDuotone size={20} />,
+          subItems: [
+            "Overview",
+            "Projects",
+            "Campaigns",
+            "Documents",
+            "Followers",
+          ],
         },
       ],
     },
@@ -126,21 +149,25 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
           label: "Account",
           key: "account",
           icon: <PiIdentificationCardDuotone size={20} />,
+          subItems: ["demo 1", "demo 2", "demo 3", "demo 4", "demo 5"],
         },
         {
           label: "Corporate",
           key: "corporate",
           icon: <PiUsersThreeDuotone size={20} />,
+          subItems: ["demo 1", "demo 2", "demo 3", "demo 4", "demo 5"],
         },
         {
           label: "Blog",
           key: "blog",
           icon: <PiNotebookDuotone size={20} />,
+          subItems: ["demo 1", "demo 2", "demo 3", "demo 4", "demo 5"],
         },
         {
           label: "Social",
           key: "social",
           icon: <PiChatsTeardropDuotone size={20} />,
+          subItems: ["demo 1", "demo 2", "demo 3", "demo 4", "demo 5"],
         },
       ],
     },
@@ -150,50 +177,54 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
     return items.map((item) => (
       <div key={item.key} className={`ml-${level * 4}`}>
         <div
-          className={`flex items-center py-[6px] px-4 cursor-pointer w-[95%] mx-auto rounded-lg relative ${selectedItem === item.key
+          className={`flex items-center py-[6px] px-4 hover:bg-[#282828] cursor-pointer w-[95%] mx-auto rounded-lg relative ${
+            item.link && location.pathname === item.link
               ? theme === "light"
                 ? "bg-gray-200 "
-                : "bg-[#282828] "
+                : "bg-[#282828]  "
               : ""
-            }`}
+          }`}
           onClick={() => {
             handleItemClick(item.key);
             if (item.items || item.subItems) toggleSection(item.key);
           }}
         >
-          {selectedItem === item.key ? (
+          {item.link && location.pathname === item.link ? (
             theme === "light" ? (
               <div className="w-1 h-4 rounded-md absolute left-2 bg-black"></div>
             ) : (
-              ""
+              <div className="w-1 h-4 rounded-md absolute left-2 bg-gray-100"></div>
             )
           ) : (
             ""
           )}
 
+          {(item.items || item.subItems) &&
+            (openSections[item.key] ? (
+              <FiChevronDown className="" />
+            ) : (
+              <FiChevronRight className="" />
+            ))}
           {item.icon && <span className="mr-3">{item.icon}</span>}
+
           {item.link ? (
             <Link
               to={item.link}
-              className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
-                } text-sm font-inter font-medium`}
+              className={`flex-grow ${
+                theme === "light" ? "text-gray-800" : "text-gray-300"
+              } text-sm font-inter font-medium`}
             >
               {item.label}
             </Link>
           ) : (
             <span
-              className={`flex-grow ${theme === "light" ? "text-gray-800" : "text-gray-300"
-                } text-sm font-inter font-medium`}
+              className={`flex-grow ${
+                theme === "light" ? "text-gray-800" : "text-gray-300"
+              } text-sm font-inter font-medium`}
             >
               {item.label}
             </span>
           )}
-          {(item.items || item.subItems) &&
-            (openSections[item.key] ? (
-              <FiChevronDown className="ml-2" />
-            ) : (
-              <FiChevronRight className="ml-2" />
-            ))}
         </div>
         {openSections[item.key] && item.items && (
           <div className="ml-4">{renderItems(item.items, level + 1)}</div>
@@ -222,24 +253,28 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
     <>
       {rightSidebarOpen && (
         <div
-          className={`min-w-56 border-r ${theme === "light"
+          className={`min-w-56 border-r ${
+            theme === "light"
               ? "bg-white text-gray-700"
               : "bg-[#1C1C1C] text-gray-300 border-[#282828]"
-            } border-[#1C1C1C1A] text-sm ${isMobile ? "absolute top-0 left-0 z-50" : "relative"
-            }`}
+          } border-[#1C1C1C1A] text-sm ${
+            isMobile ? "absolute top-0 left-0 z-50" : "relative"
+          }`}
         >
           <div className="flex justify-between items-center">
             <div className="p-4 flex items-center space-x-2 ">
               <div
-                className={`w-6 h-6 rounded-full ${theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
-                  }`}
+                className={`w-6 h-6 rounded-full ${
+                  theme === "light" ? "bg-gray-300" : "bg-gray-700 border-l"
+                }`}
               >
                 <img src="/Images/ByeWind.png" alt="" />
               </div>
 
               <span
-                className={`font-medium ${theme === "light" ? "text-gray-800" : "text-gray-300"
-                  } text-sm font-inter`}
+                className={`font-medium ${
+                  theme === "light" ? "text-gray-800" : "text-gray-300"
+                } text-sm font-inter`}
               >
                 ByeWind
               </span>
@@ -257,8 +292,9 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
             {menuItems.map((section) => (
               <div key={section.key} className="mb-4">
                 <div
-                  className={`px-4 py-2 text-sm font-medium uppercase ${theme === "light" ? "text-gray-500" : "text-gray-400"
-                    }`}
+                  className={`px-4 py-2 text-sm font-medium capitalize flex justify-between items-center ${
+                    theme === "light" ? "text-gray-500" : "text-gray-400"
+                  }`}
                 >
                   {section.label}
                 </div>
