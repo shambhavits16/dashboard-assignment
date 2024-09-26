@@ -1,6 +1,6 @@
 # React Dashboard Project
 
-This project is a dashboard website built with React, Tailwind CSS, and Ant Design.
+This project is a dashboard website built with React, Tailwind CSS, Ant Design, and, Framer Motion.
 
 ## Deployed Link
 
