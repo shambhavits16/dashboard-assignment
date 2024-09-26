@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import {
   PiStarDuotone,
@@ -7,7 +7,9 @@ import {
   PiSunDuotone,
   PiClockCounterClockwiseDuotone,
   PiBellDuotone,
+  PiCommand
 } from "react-icons/pi";
+import { RxSlash } from "react-icons/rx";
 
 const Header = ({
   toggle,
@@ -17,6 +19,13 @@ const Header = ({
   toggleLeftSidebar,
   leftSidebarOpen,
 }) => {
+
+  const [isStarActive, setIsStarActive] = useState(false);
+
+  const toggleStar = () => {
+    setIsStarActive(!isStarActive);
+  };
+
   const toggleSidebar = () => {
     toggleRightSidebar(!rightSidebarOpen);
     console.log(!rightSidebarOpen);
@@ -45,7 +54,11 @@ const Header = ({
           size={20}
           onClick={toggleSidebar}
         />
-        <PiStarDuotone className="cursor-pointer" size={20} />
+        {/* <PiStarDuotone className="cursor-pointer" size={20} /> */}
+        <PiStarDuotone
+          className={`cursor - pointer transition-colors duration-300 ${isStarActive ? "text-yellow-500" : "text-gray-400"}`}
+        size={20}
+        onClick={toggleStar}/>
         <h1
           className={`text-sm font-normal font-inter mr-4 ml-4 ${toggle === "light" ? "text-[#1C1C1C66]" : "text-gray-400"
             }`}
@@ -82,6 +95,10 @@ const Header = ({
               }`}
             size={16}
           />
+          <PiCommand size={20} className={`absolute right-4 top-1/2 transform -translate-y-1/2 ${toggle === "light" ? "text-gray-400" : "text-gray-300"
+            }`} />
+          <RxSlash size={18} className={`absolute right-1 top-1/2 transform -translate-y-1/2 ${toggle === "light" ? "text-gray-400" : "text-gray-300"
+            }`} />
         </div>
       </div>
 

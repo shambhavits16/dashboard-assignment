@@ -60,9 +60,9 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
   const menuItems = [
     {
       label: (
-        <div className="flex justify-between items-center float-right w-full">
-          <h1>Favorites</h1>
-          <h1>Recently</h1>
+        <div className="flex justify-evenly items-center float-right w-full gap-2">
+          <h1 className={`font-normal text-sm font-inter ${theme === "light" ? "text-[#1C1C1C66]" : "text-[#FFFFFF66]"}`}>Favorites</h1>
+          <h1 className={`font-normal text-sm font-inter ${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"}`}>Recently</h1>
         </div>
       ),
       key: "favorites",
@@ -70,12 +70,12 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
         {
           label: "Overview",
           key: "overview",
-          icon: <PiDotOutlineFill size={16} color="#1C1C1C33" />,
+          icon: <PiDotOutlineFill size={16} className={`${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"}`} />,
         },
         {
           label: "Projects",
           key: "projects",
-          icon: <PiDotOutlineFill size={16} color="#1C1C1C33" />,
+          icon: <PiDotOutlineFill size={16} className={`${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"}`} />,
         },
       ],
     },
@@ -177,13 +177,13 @@ const Sidebar = ({ theme, rightSidebarOpen, toggleRightSidebar }) => {
     return items.map((item) => (
       <div key={item.key} className={`ml-${level * 4}`}>
         <div
-          className={`flex items-center py-[6px] px-4 hover:bg-[#282828] cursor-pointer w-[95%] mx-auto rounded-lg relative ${
+          className={`flex items-center py-[6px] px-4 cursor-pointer w-[95%] mx-auto rounded-lg relative ${
             item.link && location.pathname === item.link
               ? theme === "light"
                 ? "bg-gray-200 "
                 : "bg-[#282828]  "
               : ""
-          }`}
+            } ${theme === "light" ? "hover:bg-gray-100" : "hover:bg-[#383838]"}`}
           onClick={() => {
             handleItemClick(item.key);
             if (item.items || item.subItems) toggleSection(item.key);

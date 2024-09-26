@@ -121,12 +121,13 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
       date: "Feb 2, 2023",
       status: "Rejected",
     },
+    
   ]);
   const [filteredData, setFilteredData] = useState(data);
   const [selectAll, setSelectAll] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
@@ -138,6 +139,18 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
   });
   const [filterConfig, setFilterConfig] = useState({});
 
+  /**
+ * Toggles the selection of all items in the data array.
+ * 
+ * When invoked, this function:
+ * 1. Toggles the `selectAll` state between true and false.
+ * 2. Updates each item in the `data` array to reflect the new selection state.
+ * 
+ * If `selectAll` is true, all items will be marked as selected; if false, all will be deselected.
+ * 
+ * @function handleSelectAllChange
+ * @returns {void}
+ */
   const handleSelectAllChange = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
@@ -415,7 +428,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                   transition={{ duration: 0.3 }}
                   className={`${theme === "dark"
                       ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]"
-                      : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-50"
+                      : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-100"
                     }`}
                   onMouseEnter={() => setHoveredRow(item.key)}
                   onMouseLeave={() => setHoveredRow(null)}
@@ -450,8 +463,8 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                   <td className="px-6 py-4">
                     <div className="flex items-center text-xs font-normal">
                       {item.address}
-                      <PiClipboardText
-                        className={`ml-2 ${hoveredRow === item.key ? "visible" : "invisible"
+                      <PiClipboardText size={16}
+                        className={`ml-1 ${hoveredRow === item.key ? "visible" : "invisible"
                           }`}
                       />
                     </div>
@@ -514,21 +527,6 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           </button>
         ))}
 
-        {/* {[1, 2, 3, 4, 5].map((pageNumber) => (
-          <button
-            key={pageNumber}
-            onClick={() => setCurrentPage(pageNumber)}
-            className={`px-3 py-1 rounded-lg mx-1 ${currentPage === pageNumber
-              ? theme === 'dark'
-                ? 'bg-[#FFFFFF1A] text-white'
-                : 'bg-[#1C1C1C0D] text-black'
-              : theme === 'dark'
-                ? 'bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white'
-                : 'bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black'}`}
-          >
-            {pageNumber}
-          </button>
-        ))} */}
 
         <button
           onClick={() =>
