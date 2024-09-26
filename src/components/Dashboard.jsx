@@ -1,4 +1,19 @@
-// eslint-disable-next-line no-unused-vars
+/**
+ * Dashboard component displays various statistics and charts for the application.
+ * It includes a stat card, revenue chart, projections chart, top-selling products, and total sales.
+ *
+ * This component utilizes Framer Motion for animations and accepts a themeClass prop to
+ * apply styling based on the selected theme.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.themeClass - A string representing the CSS class for the current theme (e.g., "light" or "dark").
+ *
+ * @returns {JSX.Element} A rendered Dashboard component containing multiple data visualizations.
+ *
+ */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import ProjectionsChart from "./ProjectionsChart";
 import RevenueChart from "./RevenueChart";
@@ -7,6 +22,7 @@ import StatCard from "./StatCard";
 import TotalSales from "./TotalSales";
 import { motion } from "framer-motion";
 
+// Array of product data representing the top-selling products.
 const productData = [
   {
     key: "1",
@@ -73,6 +89,7 @@ const productData = [
   },
 ];
 
+// Variants for the container animation in the product list.
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -83,6 +100,7 @@ const containerVariants = {
   },
 };
 
+// Variants for individual item animations in the product list.
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -95,7 +113,6 @@ const itemVariants = {
   },
 };
 
-// eslint-disable-next-line react/prop-types
 function Dashboard({ themeClass }) {
   return (
     <motion.div
@@ -118,6 +135,7 @@ function Dashboard({ themeClass }) {
         >
           <RevenueChart theme={themeClass} />
         </motion.div>
+
         <motion.div
           className="sm:col-span-2 lg:col-span-1"
           variants={itemVariants}
@@ -131,6 +149,7 @@ function Dashboard({ themeClass }) {
         >
           <TopSellingProducts products={productData} theme={themeClass} />
         </motion.div>
+
         <motion.div
           className="sm:col-span-2 lg:col-span-1"
           variants={itemVariants}

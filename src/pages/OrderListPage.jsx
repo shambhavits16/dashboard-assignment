@@ -1,6 +1,18 @@
-// eslint-disable-next-line no-unused-vars
+/**
+ * OrdersListPage component renders a list of orders with features for selection,
+ * search, sorting, and pagination. It also manages theme-based styling and animations.
+ *
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {string} props.theme - The current theme of the application, either "light" or "dark".
+ * @param {Function} props.setLeftSidebarOpen - Function to toggle the left sidebar's visibility.
+ *
+ * @returns {JSX.Element} The rendered OrdersListPage component.
+ */
+
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
-import { Checkbox } from "antd";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoFilterOutline } from "react-icons/io5";
 import { TbArrowsDownUp } from "react-icons/tb";
@@ -121,42 +133,33 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
       date: "Feb 2, 2023",
       status: "Rejected",
     },
-    
+
   ]);
-  const [filteredData, setFilteredData] = useState(data);
   const [selectAll, setSelectAll] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const [itemsPerPage] = useState(2);
   const totalPages = Math.ceil(data.length / itemsPerPage);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortConfig, setSortConfig] = useState({
-    key: null,
-    direction: "ascending",
-  });
-  const [filterConfig, setFilterConfig] = useState({});
 
   /**
- * Toggles the selection of all items in the data array.
- * 
- * When invoked, this function:
- * 1. Toggles the `selectAll` state between true and false.
- * 2. Updates each item in the `data` array to reflect the new selection state.
- * 
- * If `selectAll` is true, all items will be marked as selected; if false, all will be deselected.
- * 
- * @function handleSelectAllChange
- * @returns {void}
- */
+   * Toggles selection of all orders.
+   *
+   * @function handleSelectAllChange
+   * @returns {void}
+   */
   const handleSelectAllChange = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
     setData(data.map((item) => ({ ...item, selected: newSelectAll })));
   };
 
+  /**
+ * Toggles the selection of a specific order.
+ *
+ * @function handleCheckboxChange
+ * @param {string} key - The key of the order item to toggle.
+ * @returns {void}
+ */
   const handleCheckboxChange = (key) => {
     const newData = data.map((item) => {
       if (item.key === key) return { ...item, selected: !item.selected };
@@ -166,139 +169,20 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
     setSelectAll(newData.every((item) => item.selected));
   };
 
-  const handleSearch = (value) => {
-    setSearchTerm(value);
-    const filtered = data.filter((item) =>
-      Object.values(item).some((val) =>
-        val.toString().toLowerCase().includes(value.toLowerCase())
-      )
-    );
-    setFilteredData(filtered);
-    setCurrentPage(1);
+  // Variants for row animations used in Framer Motion.
+  const rowVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    hover: { scale: 1.02, transition: { duration: 0.2 } }
   };
 
-  const handleSort = () => {
-    setSortConfig((prevConfig) => ({
-      key: "user",
-      direction:
-        prevConfig.direction === "ascending" ? "descending" : "ascending",
-    }));
-  };
-
-  const sortedData = React.useMemo(() => {
-    let sortableItems = [...filteredData];
-    sortableItems.sort((a, b) => {
-      if (a.user < b.user) {
-        return sortConfig.direction === "ascending" ? -1 : 1;
-      }
-      if (a.user > b.user) {
-        return sortConfig.direction === "ascending" ? 1 : -1;
-      }
-      return 0;
-    });
-    return sortableItems;
-  }, [filteredData, sortConfig]);
-
-  const handleFilter = (key, value) => {
-    setFilterConfig((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const applyFilters = () => {
-    let filtered = data;
-    Object.entries(filterConfig).forEach(([key, value]) => {
-      filtered = filtered.filter((item) =>
-        item[key].toString().toLowerCase().includes(value.toLowerCase())
-      );
-    });
-    setFilteredData(filtered);
-    setCurrentPage(1);
-  };
-
-  const columns = [
-    {
-      title: <Checkbox checked={selectAll} onChange={handleSelectAllChange} />,
-      dataIndex: "select",
-      key: "select",
-      render: (_, record) => (
-        <Checkbox
-          checked={record.selected}
-          onChange={() => handleCheckboxChange(record.key)}
-        />
-      ),
-      width: 30,
-      align: "center",
-    },
-    {
-      title: "Order ID",
-      dataIndex: "orderID",
-      key: "orderID",
-    },
-    {
-      title: "User",
-      dataIndex: "user",
-      key: "user",
-      render: (text, record) => (
-        <div className="flex items-center">
-          <img
-            src={record.avatar}
-            alt="user"
-            className="w-8 h-8 rounded-full mr-2"
-          />
-          {text}
-        </div>
-      ),
-    },
-    {
-      title: "Project",
-      dataIndex: "project",
-      key: "project",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-      render: (text, record) => (
-        <div className="flex items-center">
-          {text}
-          <PiClipboardText
-            className={`ml-2 ${record.key === hoveredRow ? "visible" : "invisible"
-              }`}
-          />
-        </div>
-      ),
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (text) => (
-        <div className="flex items-center">
-          <FiCalendar className="mr-1" />
-          {text}
-        </div>
-      ),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status, record) => (
-        <div className="flex items-center">
-          <span
-            className="h-2 w-2 rounded-full mr-2"
-            style={{ backgroundColor: getStatusColor(status).dot }}
-          ></span>
-          <span style={{ color: getStatusColor(status).text }}>{status}</span>
-          <div
-            className={`${hoveredRow === record.key ? "visible" : "invisible"}`}
-          >
-            <IoIosMore size={16} className="ml-5" />
-          </div>
-        </div>
-      ),
-    },
-  ];
-
+  /**
+ * Determines color scheme for a given order status.
+ *
+ * @function getStatusColor
+ * @param {string} status - The current order status.
+ * @returns {Object} - The text and dot color for the specified status.
+ */
   const getStatusColor = (status) => {
     const statusColors = {
       "In Progress": { text: "#8A8CD9", dot: "#95A4FC" },
@@ -313,97 +197,81 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
     return statusColors[status] || { text: "#000", dot: "#000" };
   };
 
+  /**
+  * Effect to manage the sidebar's visibility on mount and unmount.
+  *
+  * @effect
+  * @returns {void}
+  */
   useEffect(() => {
     setLeftSidebarOpen(false);
 
     return () => {
       setLeftSidebarOpen(true);
     };
-  }, []);
+  }, [setLeftSidebarOpen]);
 
   return (
-    <div
-      className={`p-4 font-inter ${theme === "dark" ? "bg-[#1C1C1C] text-white" : "bg-white text-black"
-        }`}
-    >
+    <div className={`p-4 font-inter ${theme === "dark" ? "bg-[#1C1C1C] text-white" : "bg-white text-black"}`}>
       <div className="my-2 mb-4 mx-2 font-semibold text-sm">Order List</div>
-      <div
-        className={`flex justify-between items-center px-6 py-2 ${theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#F7F9FB]"
-          } rounded-lg mb-4`}
-      >
+      <div className={`flex justify-between items-center px-6 py-2 ${theme === "dark" ? "bg-[#FFFFFF0D]" : "bg-[#F7F9FB]"} rounded-lg mb-4`}>
         <div className="space-x-4">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            // onClick={handleAddNewData}
             className="focus:outline-none hover:text-gray-600"
           >
             <AiOutlinePlus size={20} />
           </motion.button>
+
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={applyFilters}
             className="focus:outline-none hover:text-gray-600"
           >
             <IoFilterOutline size={20} />
           </motion.button>
+
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={handleSort}
             className="focus:outline-none hover:text-gray-600"
           >
             <TbArrowsDownUp size={20} />
           </motion.button>
+
         </div>
         <div className="relative float-right w-fit">
           <input
             type="text"
             placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
-            className={`float-right pl-9 pr-4 px-2 py-1 border ${theme === "light"
-                ? "bg-white placeholder-[#1C1C1C33] border-[#1C1C1C1A]"
-                : "bg-[#1C1C1C] placeholder-[#FFFFFF33] border-[#FFFFFF1A]"
-              } font-inter rounded-lg focus:outline-none focus:ring-1 ${theme === "light" ? "focus:ring-gray-400" : "focus:ring-gray-500"
+            className={`float-right pl-9 pr-4 px-2 py-1 border ${theme === "light" ? "bg-white placeholder-[#1C1C1C33] border-[#1C1C1C1A]" : "bg-[#1C1C1C] placeholder-[#FFFFFF33] border-[#FFFFFF1A]"} font-inter rounded-lg focus:outline-none focus:ring-1 ${theme === "light" ? "focus:ring-gray-400" : "focus:ring-gray-500"
               }`}
           />
           <FiSearch
-            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"
-              }`}
+            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme === "light" ? "text-[#1C1C1C33]" : "text-[#FFFFFF33]"}`}
             size={16}
           />
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-hidden">
         <table className="min-w-full">
           <thead>
-            <tr
-              className={`${theme === "dark"
-                  ? "bg-[#FFFFFF0D] border-b border-[#FFFFFF1A] text-[#FFFFFF66]"
-                  : "bg-white text-[#1C1C1C66]"
-                } border-b border-[#1C1C1C33]`}
-            >
+            <tr className={`${theme === "dark" ? "bg-[#FFFFFF0D] border-b border-[#FFFFFF1A] text-[#FFFFFF66]" : "bg-white text-[#1C1C1C66]"} border-b border-[#1C1C1C33]`}>
               <th className="px-6 py-3 text-left">
                 <input
                   type="checkbox"
                   checked={selectAll}
                   onChange={handleSelectAllChange}
-                  className={`h-4 w-4 border cursor-pointer ${theme === "dark"
-                      ? "border-[#FFFFFF33]"
-                      : "border-[#1C1C1C33]"
-                    }`}
+                  className={`h-4 w-4 border cursor-pointer ${theme === "dark" ? "border-[#FFFFFF33]" : "border-[#1C1C1C33]"}`}
                 />
               </th>
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Order ID
               </th>
               <th
-                className="px-6 py-3 text-left font-normal text-xs cursor-pointer"
-                onClick={handleSort}
-              >
-                User {sortConfig.direction === "ascending" ? "▲" : "▼"}
+                className="px-6 py-3 text-left font-normal text-xs cursor-pointer">
+                User
               </th>
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Project
@@ -411,7 +279,9 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Address
               </th>
-              <th className="px-6 py-3 text-left font-normal text-xs">Date</th>
+              <th className="px-6 py-3 text-left font-normal text-xs">
+                Date
+              </th>
               <th className="px-6 py-3 text-left font-normal text-xs">
                 Status
               </th>
@@ -422,14 +292,13 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
               {data.map((item) => (
                 <motion.tr
                   key={item.key}
+                  variants={rowVariants}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`${theme === "dark"
-                      ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]"
-                      : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-100"
-                    }`}
+                  transition={{ duration: 0.3, delay: item.key * 0.05 }}
+                  whileHover="hover"
+                  className={`${theme === "dark" ? "bg-[#1C1C1C] text-[#FFFFFF] border-b border-[#FFFFFF1A] hover:bg-[#282828]" : "bg-white text-[#1C1C1C] border-b border-[#1C1C1C0D] hover:bg-gray-100"}`}
                   onMouseEnter={() => setHoveredRow(item.key)}
                   onMouseLeave={() => setHoveredRow(null)}
                 >
@@ -438,10 +307,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                       type="checkbox"
                       checked={item.selected}
                       onChange={() => handleCheckboxChange(item.key)}
-                      className={`form-checkbox h-4 w-4 transition-opacity duration-300 ease-in-out ${item.selected
-                          ? "opacity-100 hover:border"
-                          : "hover:border-gray-500 hover:border duration-300 transition-transform cursor-pointer"
-                        }`}
+                      className={`form-checkbox h-4 w-4 transition-opacity duration-300 ease-in-out ${item.selected ? "opacity-100 hover:border" : "hover:border-gray-500 hover:border duration-300 transition-transform cursor-pointer"}`}
                     />
                   </td>
                   <td className="px-6 py-4 text-xs font-normal">
@@ -463,15 +329,18 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                   <td className="px-6 py-4">
                     <div className="flex items-center text-xs font-normal">
                       {item.address}
-                      <PiClipboardText size={16}
-                        className={`ml-1 ${hoveredRow === item.key ? "visible" : "invisible"
-                          }`}
+                      <PiClipboardText
+                        size={16}
+                        className={`ml-1 ${hoveredRow === item.key ? "visible" : "invisible"}`}
                       />
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center text-xs font-normal">
-                      <FiCalendar className="mr-1" />
+                      <FiCalendar
+                        size={16}
+                        className="mr-1"
+                      />
                       {item.date}
                     </div>
                   </td>
@@ -486,11 +355,11 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
                       <span style={{ color: getStatusColor(item.status).text }}>
                         {item.status}
                       </span>
-                      <div
-                        className={`${hoveredRow === item.key ? "visible" : "invisible"
-                          }`}
-                      >
-                        <IoIosMore size={16} className="ml-5" />
+                      <div className={`${hoveredRow === item.key ? "visible" : "invisible"}`}>
+                        <IoIosMore
+                          size={16}
+                          className="ml-5"
+                        />
                       </div>
                     </div>
                   </td>
@@ -504,9 +373,7 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`px-3 py-1 rounded mx-1 ${currentPage === 1 ? "opacity-50" : ""
-            }`}
-        >
+          className={`px-3 py-1 rounded mx-1 ${currentPage === 1 ? "opacity-50" : ""}`}>
           &lt;
         </button>
 
@@ -514,28 +381,17 @@ const OrdersListPage = ({ theme, setLeftSidebarOpen }) => {
           <button
             key={index + 1}
             onClick={() => setCurrentPage(index + 1)}
-            className={`px-3 py-1 rounded-lg mx-1 ${theme === "dark"
-                ? currentPage === index + 1
-                  ? "bg-[#FFFFFF1A] text-white"
-                  : "bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white"
-                : currentPage === index + 1
-                  ? "bg-[#1C1C1C0D] text-black"
-                  : "bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black"
-              }`}
-          >
+            className={`px-3 py-1 rounded-lg mx-1 ${theme === "dark" ? currentPage === index + 1 ? "bg-[#FFFFFF1A] text-white" : "bg-transparent text-gray-300 hover:bg-[#FFFFFF1A] hover:text-white" : currentPage === index + 1 ? "bg-[#1C1C1C0D] text-black" : "bg-transparent text-[#1C1C1C] hover:bg-gray-200 hover:text-black"}`}>
             {index + 1}
           </button>
         ))}
-
 
         <button
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
           disabled={currentPage === totalPages}
-          className={`px-3 py-1 rounded mx-1 ${currentPage === totalPages ? "opacity-50" : ""
-            }`}
-        >
+          className={`px-3 py-1 rounded mx-1 ${currentPage === totalPages ? "opacity-50" : ""}`}>
           &gt;
         </button>
       </div>

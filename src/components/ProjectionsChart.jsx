@@ -1,3 +1,18 @@
+/**
+ * ProjectionsChart component displays revenue by location in a visually appealing way.
+ *
+ * This component uses Framer Motion for animations and accepts a `theme` prop to
+ * adjust its appearance based on light or dark mode.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.theme - The theme for the chart; can be either "light" or "dark".
+ * 
+ * @returns {JSX.Element} A rendered ProjectionsChart component containing a bar chart
+ *                        representation of revenue by location.
+ *
+ */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
@@ -12,11 +27,12 @@ const locations = [
 const maxRevenue = Math.max(...locations.map((location) => location.revenue));
 
 const ProjectionsChart = ({ theme }) => {
-  // Define light and dark mode styles
+
   const chartBg = theme === "light" ? "bg-[#F7F9FB]" : "bg-[#282828]";
   const textColor = theme === "light" ? "text-black" : "text-white";
   const barColor = theme === "light" ? "bg-[#A8C5DA]" : "bg-[#4B5563]";
 
+  // Variants for the container animation in the ProjectionsChart component.
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.95 },
     visible: {
@@ -30,6 +46,7 @@ const ProjectionsChart = ({ theme }) => {
     },
   };
 
+  // Variants for individual item animations in the ProjectionsChart component.
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -39,6 +56,7 @@ const ProjectionsChart = ({ theme }) => {
     },
   };
 
+  // Variants for the bar animations in the ProjectionsChart component.
   const barVariants = {
     hidden: { width: 0 },
     visible: (custom) => ({

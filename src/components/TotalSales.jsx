@@ -1,27 +1,49 @@
+/* eslint-disable react/prop-types */
+/**
+ * A React component that displays a pie chart of total sales by category.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.theme - The theme of the component, either "light" or "dark".
+ * @returns {JSX.Element} A pie chart visualization of sales data along with a legend.
+ */
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 const TotalSales = ({ theme }) => {
+  
   const data = [
     {
       name: "Direct",
       value: 300.56,
       color: theme === "dark" ? "#C6C7F8" : "#1C1C1C",
     },
-    { name: "Affiliate", value: 135.18, color: "#BAEDBD" },
-    { name: "Sponsored", value: 154.02, color: "#95A4FC" },
-    { name: "E-mail", value: 48.96, color: "#B1E3FF" },
+    {
+      name: "Affiliate",
+      value: 135.18,
+      color: "#BAEDBD"
+    },
+    {
+      name: "Sponsored",
+      value: 154.02,
+      color: "#95A4FC"
+    },
+    {
+      name: "E-mail",
+      value: 48.96,
+      color: "#B1E3FF"
+    },
   ];
 
   const containerClass =
     theme === "light" ? "bg-[#F7F9FB] text-black" : "bg-[#282828] text-white";
-  const labelColor = theme === "light" ? "#282828" : "white";
+  
+  const labelColor =
+    theme === "light" ? "#282828" : "white";
 
   return (
-    <div
-      className={`w-full lg:max-w-md mx-auto rounded-2xl p-6 h-fit font-inter ${containerClass} border dark:border-none`}
-    >
+    <div className={`w-full lg:max-w-md mx-auto rounded-2xl p-6 h-fit font-inter ${containerClass} border dark:border-none`}>
       <h2 className="text-sm font-semibold mb-4">Total Sales</h2>
       <ResponsiveContainer width="100%" height={210}>
         <PieChart>

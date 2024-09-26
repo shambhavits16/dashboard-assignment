@@ -1,3 +1,16 @@
+/**
+ * RightSidebar component displays notifications, activities, and contacts.
+ * 
+ * @component
+ * @param {Object} props - The props for the RightSidebar component.
+ * @param {string} props.theme - The current theme of the application ("light" or "dark").
+ * @param {boolean} props.leftSidebarOpen - A flag indicating whether the left sidebar is open.
+ * @param {function} props.toggleLeftSidebar - A function to toggle the visibility of the left sidebar.
+ * 
+ * @returns {JSX.Element|null} The rendered RightSidebar component or null if the sidebar is not open.
+ */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import {
   PiBugBeetle,
@@ -10,8 +23,9 @@ function RightSidebar({
   theme,
   leftSidebarOpen,
   toggleLeftSidebar,
-  setLeftSidebarOpen,
 }) {
+
+  // Array of notification objects
   const notifications = [
     {
       id: 1,
@@ -43,6 +57,7 @@ function RightSidebar({
     },
   ];
 
+  // Array of activity objects
   const activities = [
     {
       id: 1,
@@ -86,6 +101,7 @@ function RightSidebar({
     },
   ];
 
+  // Array of contact objects
   const contacts = [
     { id: 1, name: "Natali Craig", avatar: "/Images/NataliCraig.png" },
     { id: 2, name: "Drew Cano", avatar: "/Images/DrewCano.png" },
@@ -95,26 +111,33 @@ function RightSidebar({
     { id: 6, name: "Koray Okumus", avatar: "/Images/KorayOkumus.png" },
   ];
 
-  const sidebarClass =
-    theme === "light"
-      ? "bg-white text-black"
-      : "bg-[#1C1C1C] text-white border-[#282828]";
+  const sidebarClass = theme === "light" ? "bg-white text-black" : "bg-[#1C1C1C] text-white border-[#282828]";
+
   const textSecondary = theme === "light" ? "text-gray-500" : "text-gray-400";
 
   const [isMobile, setIsMobile] = useState(false);
 
+  /**
+   * Handles window resize events to set the sidebar state based on screen width.
+   * 
+   * @function
+   * @returns {void}
+   */
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1400);
     };
-
     handleResize();
-
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  /**
+   * Toggles the visibility of the left sidebar.
+   * 
+   * @function
+   * @returns {void}
+   */
   const toggleRSideBar = () => {
     toggleLeftSidebar(!leftSidebarOpen);
     console.log(!leftSidebarOpen);
@@ -123,10 +146,7 @@ function RightSidebar({
   return (
     <>
       {leftSidebarOpen && (
-        <div
-          className={`p-4 overflow-y-auto border-l font-inter ${sidebarClass} ${isMobile ? "absolute top-0 right-0 z-50" : "relative"
-            }`}
-        >
+        <div className={`p-4 overflow-y-auto border-l font-inter ${sidebarClass} ${isMobile ? "absolute top-0 right-0 z-50" : "relative"}`}>
           <div className="mb-8">
             <div className="flex justify-between items-center">
               <h2 className="text-sm font-inter font-semibold mb-4">
@@ -140,20 +160,17 @@ function RightSidebar({
                 />
               )}
             </div>
+
             {notifications.map((notif) => (
               <div key={notif.id} className="flex items-start mb-4 min-w-56">
-                <div
-                  className={`mr-3 mt-1 rounded-lg p-1 text-black bg-[${notif.bgColor}]`}
-                >
+                <div className={`mr-3 mt-1 rounded-lg p-1 text-black bg-[${notif.bgColor}]`}>
                   {notif.icon}
                 </div>
                 <div>
                   <p className="text-sm font-inter font-medium">
                     {notif.message}
                   </p>
-                  <p
-                    className={`text-xs leading-[18px] font-normal ${textSecondary}`}
-                  >
+                  <p className={`text-xs leading-[18px] font-normal ${textSecondary}`} >
                     {notif.time}
                   </p>
                 </div>
@@ -172,9 +189,7 @@ function RightSidebar({
                   <p className="text-sm font-inter font-medium">
                     {activity.message}
                   </p>
-                  <p
-                    className={`text-xs leading-[18px] font-normal ${textSecondary}`}
-                  >
+                  <p className={`text-xs leading-[18px] font-normal ${textSecondary}`}>
                     {activity.time}
                   </p>
                 </div>

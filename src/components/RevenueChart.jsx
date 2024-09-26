@@ -1,3 +1,12 @@
+/**
+ * RevenueChart component displays a line chart representing current and previous week revenue.
+ * 
+ * @component
+ * @param {Object} props - The props for the RevenueChart component.
+ * @param {string} props.theme - The current theme of the application ("light" or "dark").
+ * 
+ * @returns {JSX.Element} The rendered RevenueChart component.
+ */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
@@ -12,6 +21,7 @@ import {
   Tooltip,
 } from "recharts";
 
+// Data for the revenue chart.
 const data = [
   { name: "Jan", current: 12000, previous: 7000 },
   { name: "Feb", current: 8000, previous: 17000 },
@@ -25,14 +35,11 @@ const RevenueChart = ({ theme }) => {
   const currentWeekRevenue = 58211;
   const previousWeekRevenue = 68768;
 
-  const chartContainerClass =
-    theme === "light"
-      ? "bg-[#F7F9FB] bg-opacity-60"
-      : "bg-[#282828] bg-opacity-80";
-
+  const chartContainerClass = theme === "light" ? "bg-[#F7F9FB] bg-opacity-60" : "bg-[#282828] bg-opacity-80";
   const textClass = theme === "light" ? "text-[#1C1C1C]" : "text-gray-300";
   const currentWeekLineColor = theme === 'dark' ? '#C6C7F8' : '#1C1C1C';
 
+  // Animation variants for the container element.
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: {
@@ -46,6 +53,7 @@ const RevenueChart = ({ theme }) => {
     },
   };
 
+  // Animation variants for individual item elements.
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
