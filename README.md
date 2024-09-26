@@ -1,6 +1,6 @@
 # React Dashboard Project
 
-This project is a dashboard website built with React, Tailwind CSS, Ant Design, and, Framer Motion.
+This project is a dashboard website built with React, Tailwind CSS, and Ant Design.
 
 ## Deployed Link
 
@@ -38,6 +38,9 @@ Before you begin, ensure you have the following installed on your system:
 
 2. Open your browser and visit `http://localhost:port-no` to view the dashboard.
 3. also `/orders` is the route for the orders list page.
+
+- Comprehensive `JSDoc comments` have been added throughout the codebase to enhance clarity and provide detailed explanations for functions and components, ensuring easier understanding and maintenance.
+
 
 ## Building for Production
 
@@ -98,8 +101,10 @@ I implemented a variety of small, effective animations throughout the dashboard:
 4. Order Page:
    - Hover Effects: Subtle scaling and shadow changes were created to indicate interactivity for list items.
    - Loading Effects: Implemented a shimmer effect for list items while data is being fetched.
+   - **The Order List page includes advanced features such as pagination and search, enabling users to effortlessly browse and filter through orders.**
+   - **Added a download pdf button to download order list pdf, this enhances the experience of users as they can easily download order data.**
+
 
 The key to success was keeping these animations light and quick, typically lasting between 200-300 milliseconds. I used a combination of CSS transitions and keyframe animations, leveraging React's state management to trigger them at appropriate times.
 
 This approach resulted in a modern and responsive dashboard, with just enough movement to enhance the user experience without becoming distracting. The subtle animations provide valuable visual feedback, making the interface feel more intuitive and alive.
-
