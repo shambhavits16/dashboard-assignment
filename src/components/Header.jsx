@@ -128,7 +128,7 @@ const Header = ({
         />
         <div className={`cursor-pointer transition-all duration-300 ${isStarAnimating ? 'scale-125' : 'scale-100'}`}>
           <PiStarDuotone
-            className={`transition-colors duration-300 ${isStarActive ? "text-yellow-500" : "text-gray-400"}`}
+            className={`transition-colors duration-300 ${isStarActive ? "text-yellow-500" : ""}`}
             size={20}
             onClick={toggleStar}
           />
