@@ -95,6 +95,7 @@ const itemVariants = {
   },
 };
 
+// eslint-disable-next-line react/prop-types
 function Dashboard({ themeClass }) {
   return (
     <motion.div

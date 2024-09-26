@@ -54,7 +54,6 @@ const Header = ({
           size={20}
           onClick={toggleSidebar}
         />
-        {/* <PiStarDuotone className="cursor-pointer" size={20} /> */}
         <PiStarDuotone
           className={`cursor - pointer transition-colors duration-300 ${isStarActive ? "text-yellow-500" : "text-gray-400"}`}
         size={20}
